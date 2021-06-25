@@ -1,9 +1,9 @@
 package routes
 
 import (
+	v1 "blog/api/v1"
 	"blog/utils"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func InitRouter()  {
@@ -12,11 +12,15 @@ func InitRouter()  {
 
 	router := r.Group("api/v1")
 	{
-		router.GET("hello/", func(c *gin.Context) {
-			c.JSON(http.StatusOK,gin.H{
-				"msg":"ok",
-			})
-		})
+		// User模块的路由接口
+		router.POST("user/add/", v1.AddUser)
+		router.GET("users/", v1.GetUsers)
+		router.PUT("users/:id/", v1.EditUser)
+		router.DELETE("users/:id/", v1.DeleteUser)
+
+		// Category模块的路由接口
+
+		// Article模块的路由接口
 	}
 
 	r.Run(utils.HttpPort)
