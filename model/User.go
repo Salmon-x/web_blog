@@ -28,6 +28,19 @@ func CheckUser(name string)(code int) {
 	return errmsg.SUCCSE
 }
 
+// 唯一性判断，在编辑用户的时候，如果使用之前的存在性判断，那只修改其他字段，而不修改username，会永远被卡在那条判断，为了解藕，重写一个唯一判断
+func UniqueUser(name string, id int) int {
+	var user User
+	db.Select("id").Where("username=?", name).First(&user)
+	if user.ID > 0{
+		if int(user.ID) == id {
+			return errmsg.SUCCSE
+		}
+		return errmsg.ERROR_USERNAME_USED
+	}
+	return errmsg.SUCCSE
+}
+
 // 添加用户
 func CreateUser(data *User)int  {
 	// 添加时接收一下错误
@@ -51,8 +64,26 @@ func GetUsers(PageSize int, PageNum int)[]User  {
 }
 
 // 编辑用户
-func UpdateUser()  {
-	
+func UpdateUser(id int, data *User) int {
+	var user User
+	var maps = make(map[string]interface{})
+	maps["username"] = data.Username
+	maps["role"] = data.Role
+	err = db.Model(&user).Where("id = ? ", id).Updates(maps).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
+
+// 删除用户
+func DeleteUser(id int) int {
+	var user User
+	err = db.Where("id = ?", id).Delete(&user).Error
+	if err != nil{
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
 }
 
 
