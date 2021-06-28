@@ -2,7 +2,9 @@ package model
 
 import (
 	"blog/utils/errmsg"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"log"
 )
 
 type User struct {
@@ -51,4 +53,22 @@ func GetUsers(PageSize int, PageNum int)[]User  {
 // 编辑用户
 func UpdateUser()  {
 	
+}
+
+
+// 密码加密
+func ScryptPw(password string) string {
+	const cost = 10
+	HashPw, err := bcrypt.GenerateFromPassword([]byte(password), cost)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return string(HashPw)
+}
+
+// BeforeCreate 密码加密&权限控制
+func (u *User) BeforeCreate(_ *gorm.DB) (err error) {
+	u.Password = ScryptPw(u.Password)
+	u.Role = 2
+	return nil
 }
