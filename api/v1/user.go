@@ -34,8 +34,8 @@ func AddUser(c *gin.Context)  {
 // 查询多个用户
 func GetUsers(c *gin.Context)  {
 	// 字符串转int
-	PageSize,_ := strconv.Atoi(c.DefaultQuery("pagesize","3"))
-	PageNum,_ := strconv.Atoi(c.DefaultQuery("pagenum","1"))
+	PageSize,_ := strconv.Atoi(c.DefaultQuery("size","3"))
+	PageNum,_ := strconv.Atoi(c.DefaultQuery("page","1"))
 
 
 	data := model.GetUsers(PageSize,PageNum)

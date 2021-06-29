@@ -1,13 +1,91 @@
 package v1
 
-// 查看分类是否存在
+import (
+	"blog/model"
+	"blog/utils/errmsg"
+	"github.com/gin-gonic/gin"
+	"net/http"
+	"strconv"
+)
+
 
 // 添加分类
+func AddCategory(c *gin.Context)  {
+	var data model.Category
+	_ = c.ShouldBindJSON(&data)
+	code = model.CheckUser(data.Name)
+	if code == errmsg.SUCCSE {
+		model.CreateCategory(&data)
+	}
+	if code == errmsg.ERROR_USERNAME_USED {
+		code = errmsg.ERROR_USERNAME_USED
+	}
 
-// 查询分类
+	c.JSON(http.StatusOK,gin.H{
+		"code":code,
+		"msg":errmsg.GetErrorMsg(code),
+		"data":data,
+	})
+}
 
-// 查询单个分类下的所有文章
+// 查询单个分类信息
+func GetCateInfo(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
 
-// 编辑分类
+	data, code := model.GetCateInfo(id)
+
+	c.JSON(
+		http.StatusOK, gin.H{
+			"status":  code,
+			"data":    data,
+			"message": errmsg.GetErrorMsg(code),
+		},
+	)
+}
+
+// 查询分类列表
+func GetCategorys(c *gin.Context)  {
+	// 字符串转int
+	PageSize,_ := strconv.Atoi(c.DefaultQuery("size","3"))
+	PageNum,_ := strconv.Atoi(c.DefaultQuery("page","1"))
+
+
+	data := model.GetCategorys(PageSize,PageNum)
+	code = errmsg.SUCCSE
+	c.JSON(http.StatusOK,gin.H{
+		"code":code,
+		"msg":errmsg.GetErrorMsg(code),
+		"data":data,
+	})
+
+
+}
+
+// 分类编辑
+func EditCategory(c *gin.Context)  {
+	var data model.Category
+	id,_ := strconv.Atoi(c.Param("id"))
+	c.ShouldBindJSON(&data)
+	code = model.CheckCategory(data.Name)
+	if code == errmsg.SUCCSE{
+		model.UpdateCategory(id, &data)
+	}
+	if code == errmsg.ERROR_USERNAME_USED{
+		c.Abort()
+	}
+	c.JSON(http.StatusOK,gin.H{
+		"code":code,
+		"msg":errmsg.GetErrorMsg(code),
+	})
+}
 
 // 分类删除
+func DeleteCategory(c *gin.Context)  {
+	id,_ := strconv.Atoi(c.Param("id"))
+	code = model.DeleteCategory(id)
+
+	c.JSON(http.StatusOK,gin.H{
+		"code":code,
+		"msg":errmsg.GetErrorMsg(code),
+	})
+}
