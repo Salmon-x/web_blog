@@ -9,3 +9,6 @@ func main()  {
 	model.InitDb()
 	routes.InitRouter()
 }
+
+// https://github.com/dollarkillerx/goseaweed
+// seaweedfs

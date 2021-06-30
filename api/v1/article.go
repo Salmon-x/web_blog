@@ -12,16 +12,14 @@ import (
 func AddArticle(c *gin.Context)  {
 	var data model.Article
 	_ = c.ShouldBindJSON(&data)
-	if code == errmsg.SUCCSE {
-		model.CreateArticle(&data)
-	}
+	model.CreateArticle(&data)
 	if code == errmsg.ERROR_USERNAME_USED {
 		code = errmsg.ERROR_USERNAME_USED
 	}
 
 	c.JSON(http.StatusOK,gin.H{
-		"code":code,
-		"msg":errmsg.GetErrorMsg(code),
+		"code":errmsg.SUCCSE,
+		"msg":errmsg.GetErrorMsg(errmsg.SUCCSE),
 		"data":data,
 	})
 }
@@ -29,35 +27,53 @@ func AddArticle(c *gin.Context)  {
 // 查询文章列表
 func GetArticles(c *gin.Context)  {
 	// 字符串转int
-	PageSize,_ := strconv.Atoi(c.DefaultQuery("size","3"))
-	PageNum,_ := strconv.Atoi(c.DefaultQuery("page","1"))
+	Size,_ := strconv.Atoi(c.DefaultQuery("size","3"))
+	Page,_ := strconv.Atoi(c.DefaultQuery("page","1"))
 
 
-	data := model.GetArticles(PageSize,PageNum)
-	code = errmsg.SUCCSE
+	data,code := model.GetArticles(Size,Page)
 	c.JSON(http.StatusOK,gin.H{
 		"code":code,
 		"msg":errmsg.GetErrorMsg(code),
 		"data":data,
 	})
+}
 
+// 单个文章
+func GetArticleInfo(c *gin.Context){
+	id, _ := strconv.Atoi(c.Param("id"))
+	data,code := model.ArticleInfo(id)
+	c.JSON(http.StatusOK,gin.H{
+		"code":code,
+		"msg":errmsg.GetErrorMsg(code),
+		"data":data,
+	})
+}
 
+// 分类下所有文章
+func GetCateArt(c *gin.Context)  {
+	id, _ := strconv.Atoi(c.Param("id"))
+	Size,_ := strconv.Atoi(c.DefaultQuery("size","3"))
+	Page,_ := strconv.Atoi(c.DefaultQuery("page","1"))
+	data, code := model.GetCateArt(id, Size, Page)
+	c.JSON(http.StatusOK,gin.H{
+		"code":code,
+		"msg":errmsg.GetErrorMsg(code),
+		"data":data,
+	})
 }
 
 // 文章编辑
 func EditArticle(c *gin.Context)  {
 	var data model.Article
-	id,_ := strconv.Atoi(c.Param("id"))
-	c.ShouldBindJSON(&data)
-	if code == errmsg.SUCCSE{
-		model.UpdateArticle(id, &data)
-	}
-	if code == errmsg.ERROR_USERNAME_USED{
-		c.Abort()
-	}
-	c.JSON(http.StatusOK,gin.H{
-		"code":code,
-		"msg":errmsg.GetErrorMsg(code),
+	id, _ := strconv.Atoi(c.Param("id"))
+	_ = c.ShouldBindJSON(&data)
+
+	code = model.UpdateArticle(id, &data)
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"message": errmsg.GetErrorMsg(code),
 	})
 }
 
