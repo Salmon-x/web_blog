@@ -103,3 +103,23 @@ func (u *User) BeforeCreate(_ *gorm.DB) (err error) {
 	u.Role = 2
 	return nil
 }
+
+
+// 登陆验证
+func CheckLogin(username string, password string) (User,int) {
+	var user User
+	var PasswordErr error
+	db.Where("username=?",username).First(&user)
+	if user.ID == 0{
+		return user,errmsg.ERROR_USER_NOT_EXIST
+	}
+	PasswordErr = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if PasswordErr != nil {
+		return user, errmsg.ERROR_PASSWORD_WRONG
+	}
+	if user.Role != 0{
+		return user,errmsg.ERROR_USER_NO_RIGHT
+	}
+	return user,errmsg.SUCCSE
+
+}

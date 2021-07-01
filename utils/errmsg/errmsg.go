@@ -1,7 +1,7 @@
 package errmsg
 
 const (
-	SUCCSE = 200
+	SUCCSE = 1000
 	ERROR  = 500
 
 	// code=1XXX，用户模块错误
@@ -12,6 +12,7 @@ const (
 	ERROR_TOKEN_RUNTIME = 1005
 	ERROR_TOKEN_WRONG = 1006
 	ERROR_TOKEN_TYPE_WRONG = 1007
+	ERROR_USER_NO_RIGHT    = 1008
 
 	// code=2XXX，文章模块错误
 	ERROR_ART_NOT_EXIST = 2001
@@ -26,6 +27,7 @@ var CodeMsg = map[int]string{
 	ERROR_USERNAME_USED:    "用户名已存在！",
 	ERROR_PASSWORD_WRONG:   "密码错误",
 	ERROR_USER_NOT_EXIST:   "用户不存在",
+	ERROR_USER_NO_RIGHT:    "权限不足",
 	ERROR_TOKEN_EXIST:      "TOKEN不存在,请重新登陆",
 	ERROR_TOKEN_RUNTIME:    "TOKEN已过期,请重新登陆",
 	ERROR_TOKEN_WRONG:      "TOKEN不正确,请重新登陆",
