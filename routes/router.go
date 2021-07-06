@@ -37,6 +37,7 @@ func InitRouter()  {
 		router.GET("article/", v1.GetArticles)
 		router.GET("article/:id/", v1.GetArticleInfo)
 		router.GET("catelist/:id/", v1.GetCateArt)
+		router.POST("upload/", v1.UploadFile)
 	}
 
 
