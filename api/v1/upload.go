@@ -34,3 +34,4 @@ func UploadFile(c *gin.Context){
 		"data": fid,
 	})
 }
+

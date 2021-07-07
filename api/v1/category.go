@@ -50,12 +50,13 @@ func GetCategorys(c *gin.Context)  {
 	PageNum,_ := strconv.Atoi(c.DefaultQuery("page","1"))
 
 
-	data := model.GetCategorys(PageSize,PageNum)
+	data,total := model.GetCategorys(PageSize,PageNum)
 	code = errmsg.SUCCSE
 	c.JSON(http.StatusOK,gin.H{
 		"code":code,
 		"msg":errmsg.GetErrorMsg(code),
 		"data":data,
+		"total":total,
 	})
 
 

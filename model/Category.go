@@ -42,15 +42,16 @@ func GetCateInfo(id int) (Category,int) {
 
 
 // 分类列表
-func GetCategorys(PageSize int, PageNum int)[]Category  {
+func GetCategorys(Size int, Page int)([]Category,int64)  {
 	var cates []Category
+	var total int64
 	// 分页
-	err = db.Limit(PageSize).Offset((PageNum - 1) * PageSize).Find(&cates).Error
+	err = db.Limit(Size).Offset((Page - 1) * Size).Find(&cates).Count(&total).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil
+		return nil,0
 	}
 	// 返回分类列表
-	return cates
+	return cates,total
 }
 
 // 编辑分类

@@ -52,15 +52,16 @@ func CreateUser(data *User)int  {
 }
 
 // 用户列表
-func GetUsers(PageSize int, PageNum int)[]User  {
+func GetUsers(Size int, Page int)([]User,int64)  {
 	var users []User
+	var total int64
 	// 分页
-	err = db.Limit(PageSize).Offset((PageNum - 1) * PageSize).Find(&users).Error
+	err = db.Limit(Size).Offset((Page - 1) * Size).Find(&users).Count(&total).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil
+		return nil,0
 	}
 	// 返回用户的列表
-	return users
+	return users,total
 }
 
 // 编辑用户
@@ -97,6 +98,7 @@ func ScryptPw(password string) string {
 	return string(HashPw)
 }
 
+
 // BeforeCreate 密码加密&权限控制
 func (u *User) BeforeCreate(_ *gorm.DB) (err error) {
 	u.Password = ScryptPw(u.Password)
@@ -117,7 +119,7 @@ func CheckLogin(username string, password string) (User,int) {
 	if PasswordErr != nil {
 		return user, errmsg.ERROR_PASSWORD_WRONG
 	}
-	if user.Role != 0{
+	if user.Role != 1{
 		return user,errmsg.ERROR_USER_NO_RIGHT
 	}
 	return user,errmsg.SUCCSE

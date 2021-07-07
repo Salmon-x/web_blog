@@ -59,7 +59,9 @@ func CheckToken(token string) (*MyClaims, int) {
 // jwt中间件
 func JwtToken() gin.HandlerFunc{
 	return func(c *gin.Context) {
+		// 接收参数
 		tokenHeader := c.Request.Header.Get("Authorization")
+		// 如果不存在
 		if tokenHeader == ""{
 			code = errmsg.ERROR_TOKEN_EXIST
 			c.JSON(http.StatusOK, gin.H{
@@ -69,6 +71,7 @@ func JwtToken() gin.HandlerFunc{
 			c.Abort()
 			return
 		}
+		// 分割，验证格式
 		checkToken := strings.SplitN(tokenHeader, " ", 2)
 		if len(checkToken) != 2 && checkToken[0] != "Bearer" {
 			code = errmsg.ERROR_TOKEN_TYPE_WRONG
@@ -79,6 +82,7 @@ func JwtToken() gin.HandlerFunc{
 			c.Abort()
 			return
 		}
+		// 验证token
 		key,Tcode := CheckToken(checkToken[1])
 		if Tcode == errmsg.ERROR {
 			code = errmsg.ERROR_TOKEN_WRONG
@@ -89,6 +93,7 @@ func JwtToken() gin.HandlerFunc{
 			c.Abort()
 			return
 		}
+		// 过期情况
 		if time.Now().Unix() > key.ExpiresAt{
 			code = errmsg.ERROR_TOKEN_RUNTIME
 			c.JSON(http.StatusOK, gin.H{

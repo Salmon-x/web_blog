@@ -9,9 +9,12 @@ import (
 
 func InitRouter()  {
 	gin.SetMode(utils.AppMode)
-	r := gin.Default()
+	r := gin.New()
+	r.Use(middleware.Logger())
+	r.Use(gin.Recovery())
+	r.Use(middleware.Cors())
 
-	Auth := r.Group("")
+	Auth := r.Group("api/admin")
 	Auth.Use(middleware.JwtToken())
 	{
 		// User模块的路由接口
@@ -25,19 +28,22 @@ func InitRouter()  {
 		Auth.POST("article/", v1.AddArticle)
 		Auth.PUT("article/:id/", v1.EditArticle)
 		Auth.DELETE("article/:id/", v1.DeleteArticle)
+		Auth.POST("upload/", v1.UploadFile)
 	}
 
 	router := r.Group("api/v1")
 	{
 		router.GET("user/", v1.GetUsers)
-		Auth.POST("user/", v1.AddUser)
+		router.POST("user/", v1.AddUser)
+
 		router.POST("login/", v1.Login)
+
 		router.GET("category/", v1.GetCategorys)
 		router.GET("category/:id/", v1.GetCateInfo)
+
 		router.GET("article/", v1.GetArticles)
 		router.GET("article/:id/", v1.GetArticleInfo)
 		router.GET("catelist/:id/", v1.GetCateArt)
-		router.POST("upload/", v1.UploadFile)
 	}
 
 

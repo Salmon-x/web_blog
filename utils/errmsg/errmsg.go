@@ -1,7 +1,7 @@
 package errmsg
 
 const (
-	SUCCSE = 1000
+	SUCCSE = 200
 	ERROR  = 500
 
 	// code=1XXX，用户模块错误
@@ -38,6 +38,5 @@ var CodeMsg = map[int]string{
 }
 
 func GetErrorMsg(code int)string  {
-
 	return CodeMsg[code]
 }

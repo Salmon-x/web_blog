@@ -31,11 +31,12 @@ func GetArticles(c *gin.Context)  {
 	Page,_ := strconv.Atoi(c.DefaultQuery("page","1"))
 
 
-	data,code := model.GetArticles(Size,Page)
+	data,code,total := model.GetArticles(Size,Page)
 	c.JSON(http.StatusOK,gin.H{
 		"code":code,
 		"msg":errmsg.GetErrorMsg(code),
 		"data":data,
+		"total":total,
 	})
 }
 
@@ -55,11 +56,12 @@ func GetCateArt(c *gin.Context)  {
 	id, _ := strconv.Atoi(c.Param("id"))
 	Size,_ := strconv.Atoi(c.DefaultQuery("size","3"))
 	Page,_ := strconv.Atoi(c.DefaultQuery("page","1"))
-	data, code := model.GetCateArt(id, Size, Page)
+	data, code, total := model.GetCateArt(id, Size, Page)
 	c.JSON(http.StatusOK,gin.H{
 		"code":code,
 		"msg":errmsg.GetErrorMsg(code),
 		"data":data,
+		"total":total,
 	})
 }
 
