@@ -4,7 +4,7 @@
 gin-vue个人博客
 
 #### 技术栈
-gin+vue+mysql+seaweedfs+elasticsearch
+gin+vue+mysql+seaweedfs
 
 
 #### 安装教程

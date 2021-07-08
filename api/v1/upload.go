@@ -12,6 +12,7 @@ import (
 	"time"
 )
 
+
 // 上传文件
 func UploadFile(c *gin.Context){
 	file, _, _ := c.Request.FormFile("file")
@@ -35,3 +36,22 @@ func UploadFile(c *gin.Context){
 	})
 }
 
+
+func GetFile(c *gin.Context){
+	fid := c.Query("fid")
+	fs := goseaweed.NewSeaweedFs("http://127.0.0.1:8080", time.Second * 10)
+	content,err := fs.GetFile(fid)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	//_ = ioutil.WriteFile("xxx.png",content,000666)
+	code = errmsg.SUCCSE
+	//c.Header("content-disposition", `attachment; filename=` + "xxx.png")
+	c.Data(200, "image/png", content)
+}
+
+
+/*
+/data/mainboard/weed server -master.port=9334 -dir=/data/2 -master.peers=172.27.156.14:93
+33,172.27.156.14:9334,172.27.156.15:9333 -volume.port=9344 -ip.bind=172.27.156.14
+*/

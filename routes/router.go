@@ -10,6 +10,7 @@ import (
 func InitRouter()  {
 	gin.SetMode(utils.AppMode)
 	r := gin.New()
+
 	r.Use(middleware.Logger())
 	r.Use(gin.Recovery())
 	r.Use(middleware.Cors())
@@ -34,6 +35,7 @@ func InitRouter()  {
 	router := r.Group("api/v1")
 	{
 		router.GET("user/", v1.GetUsers)
+		router.GET("file/", v1.GetFile)
 		router.POST("user/", v1.AddUser)
 
 		router.POST("login/", v1.Login)

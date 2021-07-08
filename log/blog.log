@@ -1,8 +1,9 @@
-time="2021-07-07T13:38:34+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=23 HostName=localhost IP=127.0.0.1 Method=POST Path=/api/v1/user/ SpendTime="123 ms" Status=200
-ms" Status=200
-time="2021-07-07T13:25:41+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=64 HostName=lihaoyedeMacBook-Air.local IP=127.0.0.1 Method=POST Path=/api/v1/user/ SpendTime="3 ms" Status=200
-time="2021-07-07T13:25:46+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=48 HostName=lihaoyedeMacBook-Air.local IP=127.0.0.1 Method=POST Path=/api/v1/user/ SpendTime="1 ms" Status=200
-time="2021-07-07T13:25:57+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=48 HostName=lihaoyedeMacBook-Air.local IP=127.0.0.1 Method=POST Path=/api/v1/user/ SpendTime="1 ms" Status=200
+time="2021-07-08T13:30:24+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=2324171 HostName=bogon IP=127.0.0.1 Method=GET Path="/api/v1/file/?fid=2,0234b70d89" SpendTime="215 ms" Status=200
+time="2021-07-08T13:30:34+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=734 HostName=bogon IP=127.0.0.1 Method=GET Path="/api/v1/user/?page=1&size=3" SpendTime="35 ms" Status=200
+time="2021-07-08T13:30:42+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=503 HostName=bogon IP=127.0.0.1 Method=GET Path="/api/v1/user/?page=1&size=2" SpendTime="4 ms" Status=200
+=404
+time="2021-07-07T14:42:53+08:00" level=info Agent=PostmanRuntime/7.28.1 DataSize=2324171 HostName=localhost IP=127.0.0.1 Method=GET Path="/api/v1/file/?fid=6,2f5d1c5aa7" SpendTime="123 ms" Status=200
+ Status=200
 time="2021-07-07T13:26:12+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=268 HostName=lihaoyedeMacBook-Air.local IP=127.0.0.1 Method=POST Path=/api/v1/user/ SpendTime="129 ms" Status=200
 time="2021-07-07T13:26:21+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=48 HostName=lihaoyedeMacBook-Air.local IP=127.0.0.1 Method=POST Path=/api/v1/user/ SpendTime="1 ms" Status=200
 time="2021-07-07T13:26:26+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=216 HostName=lihaoyedeMacBook-Air.local IP=127.0.0.1 Method=POST Path=/api/v1/user/ SpendTime="4 ms" Status=200

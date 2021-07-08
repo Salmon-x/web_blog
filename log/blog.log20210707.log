@@ -15,3 +15,19 @@ time="2021-07-07 13:26:43" level=info Agent="ApiPOST Runtime +https://www.apipos
 time="2021-07-07 13:26:47" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=217 HostName=lihaoyedeMacBook-Air.local IP=127.0.0.1 Method=POST Path=/api/v1/user/ SpendTime="6 ms" Status=200
 time="2021-07-07 13:28:59" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=55 HostName=lihaoyedeMacBook-Air.local IP=127.0.0.1 Method=POST Path=/api/v1/user/ SpendTime="1 ms" Status=200
 time="2021-07-07 13:38:34" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=23 HostName=localhost IP=127.0.0.1 Method=POST Path=/api/v1/user/ SpendTime="123 ms" Status=200
+time="2021-07-07 13:55:13" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=1263 HostName=localhost IP=127.0.0.1 Method=GET Path="/api/v1/article/?page=1&size=5" SpendTime="14 ms" Status=200
+time="2021-07-07 14:24:18" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=52 HostName=localhost IP=127.0.0.1 Method=POST Path=/api/admin/upload/ SpendTime="2 ms" Status=200
+time="2021-07-07 14:24:24" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=51 HostName=localhost IP=127.0.0.1 Method=POST Path=/api/v1/login/ SpendTime="128 ms" Status=200
+time="2021-07-07 14:24:38" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=192 HostName=localhost IP=127.0.0.1 Method=POST Path=/api/v1/login/ SpendTime="115 ms" Status=200
+time="2021-07-07 14:24:48" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=45 HostName=localhost IP=127.0.0.1 Method=POST Path=/api/admin/upload/ SpendTime="651 ms" Status=200
+time="2021-07-07 14:30:24" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=45 HostName=localhost IP=127.0.0.1 Method=GET Path="/api/v1/file/?fid=6,2f5d1c5aa7" SpendTime="18147 ms" Status=200
+time="2021-07-07 14:31:26" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=45 HostName=localhost IP=127.0.0.1 Method=GET Path="/api/v1/file/?fid=6,2f5d1c5aa7" SpendTime="115 ms" Status=200
+time="2021-07-07 14:37:45" level=error Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=0 HostName=localhost IP=127.0.0.1 Method=GET Path="/api/v1/file/?fid=6,2f5d1c5aa7" SpendTime="145 ms" Status=500
+time="2021-07-07 14:42:04" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=2324171 HostName=localhost IP=127.0.0.1 Method=GET Path="/api/v1/file/?fid=6,2f5d1c5aa7" SpendTime="173 ms" Status=200
+time="2021-07-07 14:42:13" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=2324171 HostName=localhost IP=127.0.0.1 Method=GET Path="/api/v1/file/?fid=6,2f5d1c5aa7" SpendTime="124 ms" Status=200
+time="2021-07-07 14:42:25" level=warning Agent=PostmanRuntime/7.28.1 DataSize=0 HostName=localhost IP=127.0.0.1 Method=POST Path="/api/v1/file/?fid=6,2f5d1c5aa7" SpendTime="1 ms" Status=404
+time="2021-07-07 14:42:53" level=info Agent=PostmanRuntime/7.28.1 DataSize=2324171 HostName=localhost IP=127.0.0.1 Method=GET Path="/api/v1/file/?fid=6,2f5d1c5aa7" SpendTime="123 ms" Status=200
+time="2021-07-07 14:43:58" level=info Agent=PostmanRuntime/7.28.1 DataSize=2324171 HostName=localhost IP=127.0.0.1 Method=GET Path="/api/v1/file/?fid=6,2f5d1c5aa7" SpendTime="115 ms" Status=200
+time="2021-07-07 16:30:37" level=error Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=0 HostName=bogon IP=127.0.0.1 Method=POST Path=/api/admin/upload/ SpendTime="77 ms" Status=500
+time="2021-07-07 16:32:21" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=45 HostName=bogon IP=127.0.0.1 Method=POST Path=/api/admin/upload/ SpendTime="382 ms" Status=200
+time="2021-07-07 16:32:29" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=2324171 HostName=bogon IP=127.0.0.1 Method=GET Path="/api/v1/file/?fid=2,0234b70d89" SpendTime="192 ms" Status=200
