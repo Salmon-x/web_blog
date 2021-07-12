@@ -14,8 +14,10 @@ export default {
 	.footer{
 		background-color: aliceblue;
 		text-align: center;
+		height: 100%;
 	}
   .footer span{
+		height: 100%;
 		font-size: 20px;
 	}
 
