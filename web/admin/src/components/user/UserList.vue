@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<h3>用户列表页</h3>
 		<a-card>
 			<a-row :gutter="20">
 				<a-col :span="6">
@@ -12,7 +11,7 @@
 			</a-row>
 			<a-table 
 				:columns='columns' 
-				rowKey='username' 
+				rowKey='ID' 
 				:pagination="PaginationOption" 
 				:dataSource="userlist"
 				bordered

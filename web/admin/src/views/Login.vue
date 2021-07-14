@@ -1,6 +1,12 @@
 <template>
     <div class="container">
+			<div class="background">
+    		<img :src="imgSrc" width="100%" height="100%" alt="" />
+			</div>
         <div class="loginBox">
+						<div class="loginFont">
+							<h1 style="color:	#ACD6FF">天听博客后台管理系统</h1>
+						</div>
             <a-form-model ref="loginFormRef" :rules="rules" :model="formdata" class="loginForm">
                 <a-form-model-item prop="username">
                     <a-input placeholder="账号" v-model="formdata.username">
@@ -26,6 +32,7 @@
 export default {
   data () {
 		return {
+			imgSrc:require('../assets/0.jpg'),
       formdata: {
           username: '',
           password: ''
@@ -43,10 +50,10 @@ export default {
     }
   },
 	methods:{
-		 resetform:function(){
+		 resetform(){
 			this.$refs.loginFormRef.resetFields()
 		 },
-		 login:function(){
+		 login(){
 			 this.$refs.loginFormRef.validate(async valid=>{
 				 if(!valid) return this.$message.error("非法输入")
 				 const { data:res } = await this.$http.post('api/v1/login/', this.formdata)
@@ -66,6 +73,12 @@ export default {
         height: 100%;
         background-color: aliceblue;
     }
+		.background{
+			width:100%;  
+			height:100%;  /**宽高100%是为了图片铺满屏幕 */
+			position: absolute;
+			opacity:0.6;
+		}
     .loginBox{
         width: 450px;
         height: 300px;
@@ -83,7 +96,7 @@ export default {
         width: 100%;
         position: absolute;
 				/* 距离底部边缘 */
-        bottom: 10%;
+        bottom: 1%;
         /* 设置内边距 */
 				padding: 0 20px;
         box-sizing: border-box;
@@ -93,5 +106,14 @@ export default {
 				/* 中央对齐 */
         justify-content: flex-end;
     }
+		.loginFont{
+			margin:0 auto;
+			text-align: center;
+			margin-top: 30px;
+			
+		}
+		/* h1{
+			text-shadow: 5px 5px 5px #ca6919;
+		} */
 
 </style>>
