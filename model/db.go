@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-var db *gorm.DB
+var Db *gorm.DB
 var err error
 
 
@@ -23,7 +23,7 @@ func InitDb()  {
 		utils.DbName,
 	)
 
-	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+	Db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		// gorm日志模式：silent
 		Logger: logger.Default.LogMode(logger.Silent),
 		// 外键约束
@@ -42,7 +42,7 @@ func InitDb()  {
 	// 迁移数据表，在没有数据表结构变更时候，建议注释不执行
 	// _ = db.AutoMigrate(&User{}, &Article{}, &Category{})
 
-	sqlDB, _ := db.DB()
+	sqlDB, _ := Db.DB()
 	// SetMaxIdleCons 设置连接池中的最大闲置连接数。
 	sqlDB.SetMaxIdleConns(10)
 

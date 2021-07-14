@@ -47,11 +47,12 @@ func AddUser(c *gin.Context)  {
 // 查询多个用户
 func GetUsers(c *gin.Context)  {
 	// 字符串转int
-	PageSize,_ := strconv.Atoi(c.DefaultQuery("size","3"))
-	PageNum,_ := strconv.Atoi(c.DefaultQuery("page","1"))
+	Size,_ := strconv.Atoi(c.DefaultQuery("size","3"))
+	Page,_ := strconv.Atoi(c.DefaultQuery("page","1"))
+	username := c.Query("username")
 
 
-	data,total := model.GetUsers(PageSize,PageNum)
+	data,total := model.GetUsers(username,Size,Page)
 	code = errmsg.SUCCSE
 	c.JSON(http.StatusOK,gin.H{
 		"code":code,
@@ -83,9 +84,11 @@ func EditUser(c *gin.Context)  {
 
 // 用户删除
 func DeleteUser(c *gin.Context)  {
+	// 接收id
 	id,_ := strconv.Atoi(c.Param("id"))
+	// 执行方法
 	code = model.DeleteUser(id)
-
+	// 返回
 	c.JSON(http.StatusOK,gin.H{
 		"code":code,
 		"msg":errmsg.GetErrorMsg(code),

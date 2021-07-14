@@ -20,7 +20,7 @@ type Article struct {
 // 添加文章
 func CreateArticle(data *Article)int  {
 	// 添加时接收一下错误
-	err := db.Create(&data).Error
+	err := Db.Create(&data).Error
 	if err!=nil {
 		return errmsg.ERROR
 	}
@@ -31,7 +31,7 @@ func CreateArticle(data *Article)int  {
 func GetCateArt(cid int, Size int, Page int)([]Article, int, int64){
 	var cateArtList []Article
 	var total int64
-	err = db.Preload("Category").Limit(Size).Offset((Page - 1) * Size).Where("cid=?", cid).Find(&cateArtList).Count(&total).Error
+	err = Db.Preload("Category").Limit(Size).Offset((Page - 1) * Size).Where("cid=?", cid).Find(&cateArtList).Count(&total).Error
 	if err != nil{
 		return nil,errmsg.ERROR_CATE_NOT_EXIST,0
 	}
@@ -42,7 +42,7 @@ func GetCateArt(cid int, Size int, Page int)([]Article, int, int64){
 // 单个文章
 func ArticleInfo(id int) (Article, int) {
 	var art Article
-	err = db.Preload("Category").Where("id=?",id).First(&art).Error
+	err = Db.Preload("Category").Where("id=?",id).First(&art).Error
 	if err != nil{
 		return art, errmsg.ERROR_ART_NOT_EXIST
 	}
@@ -54,7 +54,7 @@ func GetArticles(Size int, Page int)([]Article, int, int64) {
 	var articles []Article
 	var total int64
 	// 分页
-	err = db.Preload("Category").Limit(Size).Offset((Page - 1) * Size).Find(&articles).Count(&total).Error
+	err = Db.Preload("Category").Limit(Size).Offset((Page - 1) * Size).Find(&articles).Count(&total).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, errmsg.ERROR,0
 	}
@@ -71,7 +71,7 @@ func UpdateArticle(id int, data *Article) int {
 	maps["content"] = data.Content
 	maps["cid"] = data.Cid
 	maps["img"] = data.Img
-	err = db.Model(&article).Where("id = ? ", id).Updates(maps).Error
+	err = Db.Model(&article).Where("id = ? ", id).Updates(maps).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -81,7 +81,7 @@ func UpdateArticle(id int, data *Article) int {
 // 删除文章
 func DeleteArticle(id int) int {
 	var article Article
-	err = db.Where("id = ?", id).Delete(&article).Error
+	err = Db.Where("id = ?", id).Delete(&article).Error
 	if err != nil{
 		return errmsg.ERROR
 	}

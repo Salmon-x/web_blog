@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"blog/model"
 	"blog/utils"
 	"blog/utils/errmsg"
 	"github.com/dgrijalva/jwt-go"
@@ -89,6 +90,17 @@ func JwtToken() gin.HandlerFunc{
 			c.JSON(http.StatusOK, gin.H{
 				"code":code,
 				"msg":errmsg.GetErrorMsg(code),
+			})
+			c.Abort()
+			return
+		}
+		// 验证权限
+		var user model.User
+		model.Db.Where("username=?",key.Username).First(&user)
+		if user.Role != 1{
+			c.JSON(http.StatusOK, gin.H{
+				"code":errmsg.ERROR_USER_NO_RIGHT,
+				"msg":errmsg.GetErrorMsg(errmsg.ERROR_USER_NO_RIGHT),
 			})
 			c.Abort()
 			return

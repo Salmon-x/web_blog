@@ -19,7 +19,7 @@ type User struct {
 func CheckUser(name string)(code int) {
 	var users User
 	// 查询用户是否存在
-	db.Select("id").Where("username=?",name).First(&users)
+	Db.Select("id").Where("username=?",name).First(&users)
 	if users.ID > 0 {
 		// 如果存在则引出错误
 		return errmsg.ERROR_USERNAME_USED
@@ -28,10 +28,11 @@ func CheckUser(name string)(code int) {
 	return errmsg.SUCCSE
 }
 
+
 // 唯一性判断，在编辑用户的时候，如果使用之前的存在性判断，那只修改其他字段，而不修改username，会永远被卡在那条判断，为了解藕，重写一个唯一判断
 func UniqueUser(name string, id int) int {
 	var user User
-	db.Select("id").Where("username=?", name).First(&user)
+	Db.Select("id").Where("username=?", name).First(&user)
 	if user.ID > 0{
 		if int(user.ID) == id {
 			return errmsg.SUCCSE
@@ -44,7 +45,7 @@ func UniqueUser(name string, id int) int {
 // 添加用户
 func CreateUser(data *User)int  {
 	// 添加时接收一下错误
-	err := db.Create(&data).Error
+	err := Db.Create(&data).Error
 	if err!=nil {
 		return errmsg.ERROR
 	}
@@ -52,13 +53,25 @@ func CreateUser(data *User)int  {
 }
 
 // 用户列表
-func GetUsers(Size int, Page int)([]User,int64)  {
+func GetUsers(username string, Size int, Page int)([]User,int64)  {
 	var users []User
 	var total int64
+	if username != ""{
+		if username != "" {
+			Db.Select("id,username,role").Where(
+				"username LIKE ?", username+"%",
+			).Limit(Size).Offset((Page - 1) * Size).Find(&users)
+			Db.Model(&users).Where(
+				"username LIKE ?", username+"%",
+			).Count(&total)
+			return users, total
+		}
+	}
 	// 分页
-	err = db.Limit(Size).Offset((Page - 1) * Size).Find(&users).Count(&total).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil,0
+	err = Db.Select("id,username,role").Offset((Page - 1) * Size).Limit(Size).Find(&users).Error
+	Db.Model(&users).Count(&total)
+	if err != nil{
+		return users,0
 	}
 	// 返回用户的列表
 	return users,total
@@ -70,7 +83,7 @@ func UpdateUser(id int, data *User) int {
 	var maps = make(map[string]interface{})
 	maps["username"] = data.Username
 	maps["role"] = data.Role
-	err = db.Model(&user).Where("id = ? ", id).Updates(maps).Error
+	err = Db.Model(&user).Where("id = ? ", id).Updates(maps).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -80,7 +93,7 @@ func UpdateUser(id int, data *User) int {
 // 删除用户
 func DeleteUser(id int) int {
 	var user User
-	err = db.Where("id = ?", id).Delete(&user).Error
+	err = Db.Where("id = ?", id).Delete(&user).Error
 	if err != nil{
 		return errmsg.ERROR
 	}
@@ -111,7 +124,7 @@ func (u *User) BeforeCreate(_ *gorm.DB) (err error) {
 func CheckLogin(username string, password string) (User,int) {
 	var user User
 	var PasswordErr error
-	db.Where("username=?",username).First(&user)
+	Db.Where("username=?",username).First(&user)
 	if user.ID == 0{
 		return user,errmsg.ERROR_USER_NOT_EXIST
 	}
