@@ -1,6 +1,6 @@
 <template>
 	<div class="footer">
-		<span> 萨蒙 </span>
+		<span> -------Salmon------- </span>
 	</div>
 </template>
 

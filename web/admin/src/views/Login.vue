@@ -51,6 +51,7 @@ export default {
 				 if(!valid) return this.$message.error("非法输入")
 				 const { data:res } = await this.$http.post('api/v1/login/', this.formdata)
 				 if(res.status != 200) return this.$message.error(res.message)
+				 this.$message.info(res.message)
 				 window.sessionStorage.setItem("token", res.token)
 				 this.$router.push('admin/index')
 			 })

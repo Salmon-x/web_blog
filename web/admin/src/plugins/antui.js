@@ -10,7 +10,8 @@ import { Button,
 	Table, 
 	Row, 
 	Col, 
-	ConfigProvider
+	ConfigProvider,
+	Popconfirm
 
 } from 'ant-design-vue'
 
@@ -31,4 +32,5 @@ Vue.use(Table)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(ConfigProvider)
+Vue.use(Popconfirm)
 Vue.prototype.$message = message
