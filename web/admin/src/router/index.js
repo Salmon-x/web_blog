@@ -24,6 +24,7 @@ const routes = [
 			{path:'index',component:Index},
 			{path:'addart',component:AddArt},
 			{path:'artlist',component:ArtList},
+			{path:"addart/:id",component:AddArt},
 			{path:'catelist',component:CateList},
 			{path:'userlist',component:UserList},
 		]

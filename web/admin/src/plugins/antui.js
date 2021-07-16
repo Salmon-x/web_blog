@@ -11,7 +11,10 @@ import { Button,
 	Row, 
 	Col, 
 	ConfigProvider,
-	Popconfirm
+	Popconfirm,
+	modal,
+	Select,
+	Switch,
 
 } from 'ant-design-vue'
 
@@ -33,4 +36,7 @@ Vue.use(Row)
 Vue.use(Col)
 Vue.use(ConfigProvider)
 Vue.use(Popconfirm)
+Vue.use(modal)
+Vue.use(Select)
+Vue.use(Switch)
 Vue.prototype.$message = message

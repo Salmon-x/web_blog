@@ -48,7 +48,7 @@ export default {
 	.log{
 		height: 32px;
 		margin: 16px;
-		background-color: #fff;
+		background-color: aliceblue;
 		display: flex;
 		justify-content: center;
 		align-items: center;
