@@ -17,13 +17,13 @@ func CheckCategory(name string)(code int) {
 	Db.Select("id").Where("name=?",name).First(&cate)
 	if cate.ID > 0 {
 		// 如果存在则引出错误
-		return errmsg.ERROR_USERNAME_USED
+		return errmsg.ERROR_CATENAME_USED
 	}
 	// 不存在则输入正确
 	return errmsg.SUCCSE
 }
 
-// 添加用户
+// 添加分类
 func CreateCategory(data *Category)int  {
 	// 添加时接收一下错误
 	err := Db.Create(&data).Error
@@ -46,7 +46,8 @@ func GetCategorys(Size int, Page int)([]Category,int64)  {
 	var cates []Category
 	var total int64
 	// 分页
-	err = Db.Limit(Size).Offset((Page - 1) * Size).Find(&cates).Count(&total).Error
+	err = Db.Limit(Size).Offset((Page - 1) * Size).Find(&cates).Error
+	Db.Model(&cates).Count(&total)
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil,0
 	}

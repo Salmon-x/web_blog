@@ -12,7 +12,7 @@ type User struct {
 	Username string `gorm:"type:varchar(20);not null " json:"username" validate:"required,min=4,max=12" label:"用户名"`
 	Password string `gorm:"type:varchar(500);not null" json:"password" validate:"required,min=6,max=120" label:"密码"`
 	Avatar string `gorm:"type:varchar(40);not null" json:"avatar" label:"头像"`
-	Role     int    `gorm:"type:int;DEFAULT:2" json:"role" validate:"required,gte=2" label:"角色"`
+	Role     int   `gorm:"type:int;DEFAULT:2" json:"role" validate:"required" label:"角色"`
 }
 
 // 存在性判断
@@ -51,6 +51,17 @@ func CreateUser(data *User)int  {
 	}
 	return errmsg.SUCCSE
 }
+
+// 单个用户
+func GetUser(id int)(User, int){
+	var user User
+	err = Db.Select("username,avatar,role").Where("ID=?",id).First(&user).Error
+	if err !=nil{
+		return user,errmsg.ERROR
+	}
+	return user,errmsg.SUCCSE
+}
+
 
 // 用户列表
 func GetUsers(username string, Size int, Page int)([]User,int64)  {
@@ -136,5 +147,18 @@ func CheckLogin(username string, password string) (User,int) {
 		return user,errmsg.ERROR_USER_NO_RIGHT
 	}
 	return user,errmsg.SUCCSE
+}
 
+
+// 管理员重置密码
+func AdminEdit(id int, password string) int {
+	var user User
+	var maps = make(map[string]interface{})
+	password = ScryptPw(password)
+	maps["password"] = password
+	err = Db.Model(&user).Where("id = ? ", id).Updates(maps).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
 }

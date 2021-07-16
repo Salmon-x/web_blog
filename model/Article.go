@@ -31,13 +31,31 @@ func CreateArticle(data *Article)int  {
 func GetCateArt(cid int, Size int, Page int)([]Article, int, int64){
 	var cateArtList []Article
 	var total int64
-	err = Db.Preload("Category").Limit(Size).Offset((Page - 1) * Size).Where("cid=?", cid).Find(&cateArtList).Count(&total).Error
+	err = Db.Preload("Category").Limit(Size).Offset((Page - 1) * Size).Where("cid=?", cid).Find(&cateArtList).Error
+	Db.Model(&cateArtList).Where("cid=?", cid).Count(&total)
 	if err != nil{
 		return nil,errmsg.ERROR_CATE_NOT_EXIST,0
 	}
 	return cateArtList, errmsg.SUCCSE, total
-
 }
+
+// SearchArticle 搜索文章标题
+func SearchArticle(title string, pageSize int, pageNum int) ([]Article, int, int64) {
+	var articleList []Article
+	var err error
+	var total int64
+	err = Db.Select("article.id,title, img, created_at, updated_at, `desc`, comment_count, read_count, category.name").Limit(pageSize).Offset((pageNum-1)*pageSize).Order("Created_At DESC").Joins("Category").Where("title LIKE ?",
+		title+"%",
+	).Find(&articleList).Error
+	// 单独计数
+	Db.Model(&articleList).Count(&total)
+
+	if err != nil {
+		return nil, errmsg.ERROR, 0
+	}
+	return articleList, errmsg.SUCCSE, total
+}
+
 
 // 单个文章
 func ArticleInfo(id int) (Article, int) {
@@ -54,7 +72,8 @@ func GetArticles(Size int, Page int)([]Article, int, int64) {
 	var articles []Article
 	var total int64
 	// 分页
-	err = Db.Preload("Category").Limit(Size).Offset((Page - 1) * Size).Find(&articles).Count(&total).Error
+	err = Db.Preload("Category").Limit(Size).Offset((Page - 1) * Size).Find(&articles).Error
+	Db.Model(&articles).Count(&total)
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, errmsg.ERROR,0
 	}

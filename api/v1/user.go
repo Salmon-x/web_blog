@@ -21,7 +21,7 @@ func AddUser(c *gin.Context)  {
 		c.JSON(
 			http.StatusOK, gin.H{
 				"status":  code,
-				"message": msg,
+				"msg": msg,
 			},
 		)
 		c.Abort()
@@ -43,6 +43,15 @@ func AddUser(c *gin.Context)  {
 }
 
 // 查询用户
+func GetUserInfo(c *gin.Context){
+	id,_ := strconv.Atoi(c.Param("id"))
+	data,code := model.GetUser(id)
+	c.JSON(http.StatusOK,gin.H{
+		"code":code,
+		"msg":errmsg.GetErrorMsg(code),
+		"data":data,
+	})
+}
 
 // 查询多个用户
 func GetUsers(c *gin.Context)  {
@@ -88,6 +97,19 @@ func DeleteUser(c *gin.Context)  {
 	id,_ := strconv.Atoi(c.Param("id"))
 	// 执行方法
 	code = model.DeleteUser(id)
+	// 返回
+	c.JSON(http.StatusOK,gin.H{
+		"code":code,
+		"msg":errmsg.GetErrorMsg(code),
+	})
+}
+
+// 管理员设置密码
+func AdminEditPass(c *gin.Context)  {
+	var password map[string]string
+	_ = c.ShouldBindJSON(&password)
+	id,_ := strconv.Atoi(c.Param("id"))
+	code = model.AdminEdit(id,password["password"])
 	// 返回
 	c.JSON(http.StatusOK,gin.H{
 		"code":code,

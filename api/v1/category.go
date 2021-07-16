@@ -17,8 +17,8 @@ func AddCategory(c *gin.Context)  {
 	if code == errmsg.SUCCSE {
 		model.CreateCategory(&data)
 	}
-	if code == errmsg.ERROR_USERNAME_USED {
-		code = errmsg.ERROR_USERNAME_USED
+	if code == errmsg.ERROR_CATENAME_USED {
+		code = errmsg.ERROR_CATENAME_USED
 	}
 
 	c.JSON(http.StatusOK,gin.H{
