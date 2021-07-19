@@ -8,7 +8,7 @@
 				</a-layout-header>
         
 				<a-layout-content>
-					<router-view></router-view>
+					<router-view :key="$route.path"></router-view>
 				</a-layout-content>
 
         <a-layout-footer>

@@ -15,6 +15,7 @@ import { Button,
 	modal,
 	Select,
 	Switch,
+	Upload
 
 } from 'ant-design-vue'
 
@@ -39,4 +40,5 @@ Vue.use(Popconfirm)
 Vue.use(modal)
 Vue.use(Select)
 Vue.use(Switch)
+Vue.use(Upload)
 Vue.prototype.$message = message
