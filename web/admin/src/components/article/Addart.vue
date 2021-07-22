@@ -29,12 +29,12 @@
 					<a-button> <a-icon type="upload" /> 上传图片 </a-button>
 					<br/>
 					<template v-if="id">
-						<img :src="baseurl+artInfo.img" style="width:120px;height:100px">
+						<!-- <img v-if="artInfo.img" :src="baseurl+artInfo.img" style="width:120px;height:100px"> -->
+						<img v-if="artInfo.img" :src="'http://localhost:8081/'+artInfo.img" style="width:120px;height:100px">
 					</template>
 				</a-upload>
 			</a-form-model-item>
 			<a-form-model-item label="内容" prop="content">
-				<!-- <Editor v-model="artInfo.content"></Editor> -->
 				<mavon-editor
             ref="md"
             placeholder="请输入文档内容..."
@@ -68,7 +68,7 @@ export default {
 	props:['id'],
 	data(){
 		return{
-			baseurl:'',
+			// baseurl:'',
 			artInfo:{
 				id:0,
 				title:'',
@@ -142,7 +142,8 @@ export default {
 			this.artInfo = res.data
 			this.artInfo.id = res.data.ID
 			this.artInfo.img = res.data.img
-			this.baseurl = "http://localhost:8081/"
+			// 本来用于渲染图片前缀，通过v-if图片解决了
+			// this.baseurl = "http://localhost:8081/"
 		},
 		// 获取分类
     async getCateList() {

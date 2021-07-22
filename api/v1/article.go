@@ -54,6 +54,9 @@ func GetArticles(c *gin.Context)  {
 func GetArticleInfo(c *gin.Context){
 	id, _ := strconv.Atoi(c.Param("id"))
 	data,code := model.ArticleInfo(id)
+	// 渲染成html
+	//data.Content = utils.Render(data.Content)
+
 	c.JSON(http.StatusOK,gin.H{
 		"code":code,
 		"msg":errmsg.GetErrorMsg(code),
@@ -84,8 +87,8 @@ func EditArticle(c *gin.Context)  {
 	code = model.UpdateArticle(id, &data)
 
 	c.JSON(http.StatusOK, gin.H{
-		"status":  code,
-		"message": errmsg.GetErrorMsg(code),
+		"code":  code,
+		"msg": errmsg.GetErrorMsg(code),
 	})
 }
 

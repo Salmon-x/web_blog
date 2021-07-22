@@ -5,6 +5,7 @@ import (
 	"blog/utils/errmsg"
 	"blog/utils/goseaweed"
 	"bytes"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"io"
 	"log"
@@ -39,7 +40,7 @@ func UploadFile(c *gin.Context){
 
 func GetFile(c *gin.Context){
 	fid := c.Query("fid")
-	fs := goseaweed.NewSeaweedFs("http://127.0.0.1:8080", time.Second * 10)
+	fs := goseaweed.NewSeaweedFs("http://127.0.0.1:8081", time.Second * 10)
 	content,err := fs.GetFile(fid)
 	if err != nil {
 		log.Fatalln(err)
@@ -50,6 +51,19 @@ func GetFile(c *gin.Context){
 	c.Data(200, "image/png", content)
 }
 
+// 删除文件
+func DelFile(c *gin.Context){
+	fid := c.Query("fid")
+	fs := goseaweed.NewSeaweedFs("http://127.0.0.1:8081", time.Second * 10)
+	err,code := fs.RemoveFile(fid)
+	if err != nil {
+		fmt.Println(err)
+	}
+	c.JSON(http.StatusOK,gin.H{
+		"code":code,
+		"msg": errmsg.GetErrorMsg(code),
+	})
+}
 
 /*
 /data/mainboard/weed server -master.port=9334 -dir=/data/2 -master.peers=172.27.156.14:93

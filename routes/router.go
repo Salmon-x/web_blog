@@ -29,7 +29,8 @@ func InitRouter()  {
 		Auth.POST("article/", v1.AddArticle)
 		Auth.PUT("article/:id/", v1.EditArticle)
 		Auth.DELETE("article/:id/", v1.DeleteArticle)
-		Auth.POST("upload/", v1.UploadFile)
+		Auth.POST("file/", v1.UploadFile)
+		Auth.DELETE("file/", v1.DelFile)
 		Auth.PUT("editpass/:id/", v1.AdminEditPass)
 	}
 

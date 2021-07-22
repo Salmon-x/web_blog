@@ -31,7 +31,7 @@ func CreateArticle(data *Article)int  {
 func GetCateArt(cid int, Size int, Page int)([]Article, int, int64){
 	var cateArtList []Article
 	var total int64
-	err = Db.Preload("Category").Limit(Size).Offset((Page - 1) * Size).Where("cid=?", cid).Find(&cateArtList).Error
+	err = Db.Order("Updated_At DESC").Preload("Category").Limit(Size).Offset((Page - 1) * Size).Where("cid=?", cid).Find(&cateArtList).Error
 	Db.Model(&cateArtList).Where("cid=?", cid).Count(&total)
 	if err != nil{
 		return nil,errmsg.ERROR_CATE_NOT_EXIST,0
@@ -44,7 +44,7 @@ func SearchArticle(title string, pageSize int, pageNum int) ([]Article, int, int
 	var articleList []Article
 	var err error
 	var total int64
-	err = Db.Select("article.id,title, img, created_at, updated_at, `desc`, comment_count, read_count, category.name").Limit(pageSize).Offset((pageNum-1)*pageSize).Order("Created_At DESC").Joins("Category").Where("title LIKE ?",
+	err = Db.Order("Updated_At DESC").Select("article.id,title, img, created_at, updated_at, `desc`, comment_count, read_count, category.name").Limit(pageSize).Offset((pageNum-1)*pageSize).Order("Created_At DESC").Joins("Category").Where("title LIKE ?",
 		title+"%",
 	).Find(&articleList).Error
 	// 单独计数
@@ -72,7 +72,7 @@ func GetArticles(Size int, Page int)([]Article, int, int64) {
 	var articles []Article
 	var total int64
 	// 分页
-	err = Db.Preload("Category").Limit(Size).Offset((Page - 1) * Size).Find(&articles).Error
+	err = Db.Order("Updated_At DESC").Preload("Category").Limit(Size).Offset((Page - 1) * Size).Find(&articles).Error
 	Db.Model(&articles).Count(&total)
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, errmsg.ERROR,0
