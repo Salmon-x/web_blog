@@ -75,7 +75,7 @@ export default {
     }
 		.background{
 			width:100%;  
-			height:100%;  /**宽高100%是为了图片铺满屏幕 */
+			height:100%;  /*宽高100%是为了图片铺满屏幕*/
 			position: absolute;
 			opacity:0.6;
 		}

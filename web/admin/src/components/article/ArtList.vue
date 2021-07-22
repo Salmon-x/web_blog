@@ -38,7 +38,7 @@
         @change="handleTableChange"
       >
         <span class="ArtImg" slot="img" slot-scope="img">
-          <img :src="img" />
+          <img :src="'http://localhost:8081/'+img" />
         </span>
         <template slot="action" slot-scope="data">
           <div class="actionSlot">
@@ -159,8 +159,7 @@ export default {
         }
         this.$message.error(res.message)
       }
-
-      this.Artlist = res.data
+			this.Artlist = res.data
       this.pagination.total = res.total
     },
     // 获取分类
