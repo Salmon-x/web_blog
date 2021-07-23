@@ -1,7 +1,7 @@
 <template>
 <a-layout-sider breakpoint="lg" v-model="collapsed">
 	<div class="log">
-		<span>{{collapsed? "blog":"Salmon Blog"}}</span>
+		<span style="color:#FFF">{{collapsed? "blog":"天听的web博客"}}</span>
 	</div>
 
 	<a-menu theme="dark" mode="inline" @click="gotopage">
@@ -37,7 +37,7 @@ export default {
 	},
 	methods:{
 		gotopage(item){
-			this.$router.push('/admin/'+item.key).catch((err)=>err)
+			this.$router.push('/'+item.key).catch((err)=>err)
 		}
 	}
 
@@ -48,7 +48,7 @@ export default {
 	.log{
 		height: 32px;
 		margin: 16px;
-		background-color: aliceblue;
+		background-color: rgb(68, 99, 126);
 		display: flex;
 		justify-content: center;
 		align-items: center;

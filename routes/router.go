@@ -7,6 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//func createMyRender() multitemplate.Renderer {
+//	p := multitemplate.NewRenderer()
+//	p.AddFromFiles("admin", "web/admin/dist/index.html")
+//	p.AddFromFiles("front", "web/front/dist/index.html")
+//	return p
+//}
+
 func InitRouter()  {
 	gin.SetMode(utils.AppMode)
 	r := gin.New()
@@ -14,6 +21,13 @@ func InitRouter()  {
 	r.Use(middleware.Logger())
 	r.Use(gin.Recovery())
 	r.Use(middleware.Cors())
+
+	r.LoadHTMLGlob("static/admin/index.html")
+	r.Static("admin","static/admin")
+
+	r.GET("admin", func(c *gin.Context) {
+		c.HTML(200, "index.html", nil)
+	})
 
 	Auth := r.Group("api/admin")
 	Auth.Use(middleware.JwtToken())

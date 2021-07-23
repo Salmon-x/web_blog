@@ -17,7 +17,7 @@ const routes = [
     component: Login
   },
 	{
-    path: '/admin',
+    path: '/',
     name: 'admin',
     component: Admin,
 		children:[
@@ -38,7 +38,7 @@ const router = new VueRouter({
 router.beforeEach((to, from , next)=>{
 	const token = window.sessionStorage.getItem('token')
 	if(to.name == 'login') return next()
-	if(!token && to.name == 'admin'){
+	if(!token || to.name == 'admin'){
 		next('login')
 	}else{
 		next()

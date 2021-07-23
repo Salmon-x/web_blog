@@ -1,6 +1,12 @@
 <template>
 	<div class="footer">
-		<span> -------Salmon------- </span>
+		<div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;©
+            &nbsp;&nbsp;<span id="name">天 听</span>
+            |&nbsp;&nbsp;Powered by&nbsp;<a href="https://gin-gonic.com/zh-cn/docs/" target="_blank">Gin</a>
+            |&nbsp;&nbsp;Theme&nbsp;<a href="https://antdv.com/docs/vue/introduce-cn/" target="_blank">Ant design</a>
+            <br>  
+    </div>
 	</div>
 </template>
 
@@ -20,5 +26,9 @@ export default {
 		height: 100%;
 		font-size: 20px;
 	}
+	#name{
+		font-size: 16px;
+	}
+	
 
 </style>

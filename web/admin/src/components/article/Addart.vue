@@ -62,9 +62,7 @@
 
 <script>
 import {Url} from "../../plugins/http"
-import Editor from "../editor/index"
 export default {
-	components:{Editor},
 	props:['id'],
 	data(){
 		return{
@@ -177,12 +175,12 @@ export default {
 				if (id === 0) {
           const { data: res } = await this.$http.post('/api/admin/article/', this.artInfo)
           if (res.code !== 200) return this.$message.error(res.msg)
-          this.$router.push('/admin/artlist')
+          this.$router.push('/artlist')
           this.$message.success('添加文章成功')
         } else {
           const { data: res } = await this.$http.put(`/api/admin/article/${id}/`, this.artInfo)
           if (res.code !== 200) return this.$message.error(res.msg)
-          this.$router.push('/admin/artlist')
+          this.$router.push('/artlist')
           this.$message.success('更新文章成功')
         }
 			})
