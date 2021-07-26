@@ -40,7 +40,6 @@ func GetCateInfo(id int) (Category,int) {
 	return cate,errmsg.SUCCSE
 }
 
-
 // 分类列表
 func GetCategorys(Size int, Page int)([]Category,int64)  {
 	var cates []Category

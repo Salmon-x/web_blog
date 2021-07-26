@@ -46,6 +46,10 @@ func InitRouter()  {
 		Auth.POST("file/", v1.UploadFile)
 		Auth.DELETE("file/", v1.DelFile)
 		Auth.PUT("editpass/:id/", v1.AdminEditPass)
+		// Category模块的路由接口
+		Auth.POST("wks/", v1.AddWks)
+		Auth.PUT("wks/:id/", v1.EditWks)
+		Auth.DELETE("wks/:id/", v1.DeleteWks)
 	}
 
 	router := r.Group("api/v1")
@@ -58,7 +62,10 @@ func InitRouter()  {
 		router.POST("login/", v1.Login)
 
 		router.GET("category/", v1.GetCategorys)
+		router.GET("wks/", v1.GetWks)
 		router.GET("category/:id/", v1.GetCateInfo)
+		router.GET("wks/:id/", v1.GetWksInfo)
+
 
 		router.GET("article/", v1.GetArticles)
 		router.GET("article/:id/", v1.GetArticleInfo)

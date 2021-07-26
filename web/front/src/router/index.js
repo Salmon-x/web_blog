@@ -1,15 +1,32 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+import ArticleList from "../components/ArticleList.vue"
 
-Vue.use(Router)
+Vue.use(VueRouter)
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    }
-  ]
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+		children:[
+			{"path":'/',component:ArticleList, meta:{'title':"天听"}}
+		]
+  }
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
 })
+
+router.beforeEach((to,from ,next)=>{
+	if(to.meta.title){
+		document.title = to.meta.title
+	}
+	next()
+})
+
+export default router

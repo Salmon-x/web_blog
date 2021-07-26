@@ -20,6 +20,9 @@ const (
 	ERROR_CATENAME_USED  = 3001
 	ERROR_CATE_NOT_EXIST = 3002
 
+	// 名言错误
+	ERROR_WKS_USED = 5002
+
 	// 文件错误
 	ERROR_FILE_EXIST = 4001
 )
@@ -38,6 +41,7 @@ var CodeMsg = map[int]string{
 	ERROR_ART_NOT_EXIST: "文章不存在",
 	ERROR_CATENAME_USED:  "该分类已存在",
 	ERROR_CATE_NOT_EXIST: "该分类不存在",
+	ERROR_WKS_USED: "该名言已存在",
 	ERROR_FILE_EXIST: "文件不存在",
 }
 

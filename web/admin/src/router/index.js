@@ -7,6 +7,8 @@ import AddArt from "../components/article/Addart.vue"
 import ArtList from "../components/article/ArtList.vue"
 import CateList from "../components/category/CateList.vue"
 import UserList from "../components/user/UserList.vue"
+import About from "../components/user/About.vue"
+import WksList from "../components/wks/WksList.vue"
 
 Vue.use(VueRouter)
 
@@ -27,6 +29,8 @@ const routes = [
 			{path:"addart/:id",component:AddArt,props:true},
 			{path:'catelist',component:CateList},
 			{path:'userlist',component:UserList},
+			{path:'wkslist',component:WksList},
+			{path:'about',component:About},
 		]
   },
 ]

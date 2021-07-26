@@ -24,6 +24,12 @@
 		<a-menu-item key="userlist">
 				<a-icon type="user"></a-icon><span>用户列表</span>
 			</a-menu-item>
+		<a-menu-item key="wkslist">
+			<a-icon type="snippets"></a-icon><span>名言列表</span>
+		</a-menu-item>
+		<a-menu-item key="about">
+			<a-icon type="setting"></a-icon><span>个人设置</span>
+		</a-menu-item>
 	</a-menu>
 </a-layout-sider>
 </template>
