@@ -1,4 +1,11 @@
 <template>
+	<v-navigation-drawer
+	disable-resize-watcher
+	mini-variant-width="74"
+	class="page_drawer"
+	absolute
+	style="z-index: 4"
+	>
 	<v-card class="mx-auto" max-width="300">
 		<v-img src="../assets/nav_bg.jpeg">
 			<v-card-title>
@@ -26,9 +33,46 @@
 				</v-list-item-icon>
 				<v-list-item-content class="grey-text">123123123</v-list-item-content>
 			</v-list-item>
+			<v-list-item>
+				<v-list-item-icon class="ma-3">
+					<v-icon>{{'mdi-qqchat'}}</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content class="grey-text">123123123</v-list-item-content>
+			</v-list-item>
+			<v-list-item>
+				<v-list-item-icon class="ma-3">
+					<v-icon>{{'mdi-qqchat'}}</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content class="grey-text">123123123</v-list-item-content>
+			</v-list-item>
+			<v-list-item>
+				<v-list-item-icon class="ma-3">
+					<v-icon>{{'mdi-qqchat'}}</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content class="grey-text">123123123</v-list-item-content>
+			</v-list-item>
+			<v-list-item>
+				<v-list-item-icon class="ma-3">
+					<v-icon>{{'mdi-qqchat'}}</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content class="grey-text">123123123</v-list-item-content>
+			</v-list-item>
+			<v-list-item>
+				<v-list-item-icon class="ma-3">
+					<v-icon>{{'mdi-qqchat'}}</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content class="grey-text">123123123</v-list-item-content>
+			</v-list-item>
+			<v-list-item>
+				<v-list-item-icon class="ma-3">
+					<v-icon>{{'mdi-qqchat'}}</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content class="grey-text">123123123</v-list-item-content>
+			</v-list-item>
 		</v-list>
 
 	</v-card>
+	</v-navigation-drawer>
 </template>
 
 <script>

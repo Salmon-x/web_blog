@@ -10,7 +10,8 @@
 				<v-icon v-if="!miniVariant">mdi-view-headline</v-icon>
 				<v-icon v-else>mdi-close</v-icon>
 		</v-btn>
-		
+
+		<!-- 按钮和搜索框 -->
 		<v-container class="py-0 file-height">
 			<v-btn text @click="$router.push('/').catch((err)=>err)">主页</v-btn>
 			<v-btn v-for="item in cateList" :key="item.id" text>{{item.name}}</v-btn>
@@ -41,8 +42,6 @@ export default {
 		async getcateList(){
 			const { data:res } = await this.$http.get('api/v1/category/', {
 				params:{
-					// size: this.queryParam.pagesize,
-					// page: this.queryParam.pagenum,
 					},
 				})
 			if(res.code != 200)return this.$message.error(res.msg)
