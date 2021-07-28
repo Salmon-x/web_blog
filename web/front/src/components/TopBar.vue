@@ -8,15 +8,13 @@
 				@click="handleMiniMenu"
 		>
 				<v-icon v-if="!miniVariant">mdi-view-headline</v-icon>
-				<v-icon v-else
-				>mdi-close</v-icon>
+				<v-icon v-else>mdi-close</v-icon>
 		</v-btn>
 		
 		<v-container class="py-0 file-height">
 			<v-btn text @click="$router.push('/').catch((err)=>err)">主页</v-btn>
 			<v-btn v-for="item in cateList" :key="item.id" text>{{item.name}}</v-btn>
 		</v-container>
-		<v-spacer></v-spacer>
 
 	<v-responsive max-width="260" color="white">
 		<v-text-field dense flat hide-details rounded solo-inverted></v-text-field>
