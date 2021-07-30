@@ -13,8 +13,16 @@
 
 		<!-- 按钮和搜索框 -->
 		<v-container class="py-0 file-height">
-			<v-btn text @click="$router.push('/').catch((err)=>err)">主页</v-btn>
-			<v-btn v-for="item in cateList" :key="item.id" text>{{item.name}}</v-btn>
+			<v-btn text @click="$router.push('/').catch((err)=>err)">
+			<v-icon>mdi-bank</v-icon>
+			&nbsp;主页</v-btn>
+			<!-- <v-btn v-for="item in cateList" :key="item.id" text>{{item.name}}</v-btn> -->
+			<v-btn text @click="$router.push('/category/').catch((err)=>err)">
+			<v-icon>mdi-book-variant</v-icon>
+			&nbsp;类别</v-btn>
+			<v-btn text @click="$router.push('/tag/').catch((err)=>err)">
+			<v-icon>mdi-tag</v-icon>
+			&nbsp;标签</v-btn>
 		</v-container>
 
 	<v-responsive max-width="260" color="white">

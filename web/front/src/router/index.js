@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import ArticleList from "../components/ArticleList.vue"
+import Category from "../components/Category.vue"
+import Tags from "../components/Tags.vue"
 
 Vue.use(VueRouter)
 
@@ -11,7 +13,9 @@ const routes = [
     name: 'Home',
     component: Home,
 		children:[
-			{"path":'/',component:ArticleList, meta:{'title':"天听"}}
+			{"path":'/',component:ArticleList, meta:{'title':"天听"}},
+			{"path":'/category/',component:Category, meta:{'title':"天听"}},
+			{"path":'/tag/',component:Tags, meta:{'title':"天听"}},
 		]
   }
 ]

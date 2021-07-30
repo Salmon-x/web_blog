@@ -12,10 +12,10 @@
 							v-model="nav"
 							disable-resize-watcher
 							mini-variant-width="74"
-							class="page_drawer"
+							class="page_drawer nav"
+							style="width:20rem"
 							absolute
 							elevate-on-scroll
-							style="transition: all 0.3s;z-index: 4"
 							>
 							<v-card class="mx-auto" max-width="300">
 								<v-img src="../assets/nav_bg.jpeg">
@@ -84,9 +84,10 @@
 
 							</v-card>
 						</v-navigation-drawer>
+						
 					</v-col>
 					<v-col>
-						<v-sheet min-height="75vh" rounded="lg" :width="nav?'900':'1200'" style="transition: all 0.3s">
+						<v-sheet min-height="75vh" rounded="lg" :width="nav?'900':'1200'" style="transition: all 0.3s" color="red">
 							<!-- 将路由匹配到的组件显示在这里 -->
 							<router-view></router-view>
 						</v-sheet>
@@ -131,4 +132,15 @@ import Footer from '../components/Footer.vue'
 </script>
 
 <style scoped>
+.nav{
+	display: inline-block;  
+	position: fixed;  
+	top: 23.2rem;  
+	bottom: 0;  
+	overflow: scroll;
+	right: 0;  
+	margin-bottom: 4.7rem;  
+	transition: all 0.3s;
+	z-index: 4;
+}
 </style>
