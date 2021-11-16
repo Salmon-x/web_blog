@@ -9,10 +9,14 @@ import (
 	"strconv"
 )
 
+
+type UserApi struct {
+}
+
 var code int
 
 // 添加用户
-func AddUser(c *gin.Context)  {
+func (u *UserApi)AddUser(c *gin.Context)  {
 	var data model.User
 	var msg string
 	_ = c.ShouldBindJSON(&data)
@@ -43,7 +47,7 @@ func AddUser(c *gin.Context)  {
 }
 
 // 查询用户
-func GetUserInfo(c *gin.Context){
+func (u *UserApi)GetUserInfo(c *gin.Context){
 	id,_ := strconv.Atoi(c.Param("id"))
 	data,code := model.GetUser(id)
 	c.JSON(http.StatusOK,gin.H{
@@ -54,7 +58,7 @@ func GetUserInfo(c *gin.Context){
 }
 
 // 查询多个用户
-func GetUsers(c *gin.Context)  {
+func (u *UserApi)GetUsers(c *gin.Context)  {
 	// 字符串转int
 	Size,_ := strconv.Atoi(c.DefaultQuery("size","3"))
 	Page,_ := strconv.Atoi(c.DefaultQuery("page","1"))
@@ -74,7 +78,7 @@ func GetUsers(c *gin.Context)  {
 }
 
 // 用户编辑
-func EditUser(c *gin.Context)  {
+func (u *UserApi)EditUser(c *gin.Context)  {
 	var data model.User
 	id,_ := strconv.Atoi(c.Param("id"))
 	_ = c.ShouldBindJSON(&data)
@@ -92,7 +96,7 @@ func EditUser(c *gin.Context)  {
 }
 
 // 用户删除
-func DeleteUser(c *gin.Context)  {
+func (u *UserApi)DeleteUser(c *gin.Context)  {
 	// 接收id
 	id,_ := strconv.Atoi(c.Param("id"))
 	// 执行方法
@@ -105,7 +109,7 @@ func DeleteUser(c *gin.Context)  {
 }
 
 // 管理员设置密码
-func AdminEditPass(c *gin.Context)  {
+func (u *UserApi)AdminEditPass(c *gin.Context)  {
 	var password map[string]string
 	_ = c.ShouldBindJSON(&password)
 	id,_ := strconv.Atoi(c.Param("id"))

@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import ArticleList from "../components/ArticleList.vue"
 import Category from "../components/Category.vue"
 import Tags from "../components/Tags.vue"
+import Details from "../components/Details.vue"
 
 Vue.use(VueRouter)
 
@@ -16,6 +17,7 @@ const routes = [
 			{"path":'/',component:ArticleList, meta:{'title':"天听"}},
 			{"path":'/category/',component:Category, meta:{'title':"天听"}},
 			{"path":'/tag/',component:Tags, meta:{'title':"天听"}},
+			{"path":'/details/:id/',component:Details, meta:{'title':"天听"}, props:true}
 		]
   }
 ]

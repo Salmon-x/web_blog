@@ -8,8 +8,12 @@ import (
 	"strconv"
 )
 
+type WksApi struct {
+
+}
+
 // 添加分类
-func AddWks(c *gin.Context)  {
+func (w *WksApi)AddWks(c *gin.Context)  {
 	var data model.WellKnownSaying
 	_ = c.ShouldBindJSON(&data)
 	code = model.Checkwks(data.Title)
@@ -26,7 +30,7 @@ func AddWks(c *gin.Context)  {
 
 
 // 查询分类列表
-func GetWks(c *gin.Context)  {
+func (w *WksApi)GetWks(c *gin.Context)  {
 	data := model.GetWks()
 	code = errmsg.SUCCSE
 	c.JSON(http.StatusOK,gin.H{
@@ -37,7 +41,7 @@ func GetWks(c *gin.Context)  {
 }
 
 // 查询单个分类信息
-func GetWksInfo(c *gin.Context) {
+func (w *WksApi)GetWksInfo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	data, code := model.GetWksInfo(id)
@@ -52,10 +56,10 @@ func GetWksInfo(c *gin.Context) {
 }
 
 // 分类编辑
-func EditWks(c *gin.Context)  {
+func (w *WksApi)EditWks(c *gin.Context)  {
 	var data model.WellKnownSaying
 	id,_ := strconv.Atoi(c.Param("id"))
-	c.ShouldBindJSON(&data)
+	_ = c.ShouldBindJSON(&data)
 	code = model.Checkwks(data.Title)
 	if code == errmsg.SUCCSE{
 		model.UpdateWks(id, &data)
@@ -70,7 +74,7 @@ func EditWks(c *gin.Context)  {
 }
 
 // 分类删除
-func DeleteWks(c *gin.Context)  {
+func (w *WksApi)DeleteWks(c *gin.Context)  {
 	id,_ := strconv.Atoi(c.Param("id"))
 	code = model.DeleteWks(id)
 

@@ -52,5 +52,14 @@ func InitDb()  {
 	// SetConnMaxLifetiment 设置连接的最大可复用时间。
 	sqlDB.SetConnMaxLifetime(10 * time.Second)
 
-
+	//var users User
+	//Db.First(&users)
+	//if users.ID == 0 {
+	//	var data User
+	//	data.Username = "Salmon"
+	//	data.Password = "123456"
+	//	data.Avatar = "null"
+	//	data.Role = 1
+	//	Db.Create(&data)
+	//}
 }

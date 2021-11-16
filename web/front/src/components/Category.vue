@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h1>分类页</h1>
+		<h1>分类页开发中...</h1>
 	</div>
 </template>
 

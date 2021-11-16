@@ -8,9 +8,13 @@ import (
 	"strconv"
 )
 
+type CategoryApi struct {
+
+}
+
 
 // 添加分类
-func AddCategory(c *gin.Context)  {
+func (a *CategoryApi)AddCategory(c *gin.Context)  {
 	var data model.Category
 	_ = c.ShouldBindJSON(&data)
 	code = model.CheckCategory(data.Name)
@@ -29,7 +33,7 @@ func AddCategory(c *gin.Context)  {
 }
 
 // 查询单个分类信息
-func GetCateInfo(c *gin.Context) {
+func (a *CategoryApi)GetCateInfo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	data, code := model.GetCateInfo(id)
@@ -44,7 +48,7 @@ func GetCateInfo(c *gin.Context) {
 }
 
 // 查询分类列表
-func GetCategorys(c *gin.Context)  {
+func (a *CategoryApi)GetCategorys(c *gin.Context)  {
 	// 字符串转int
 	PageSize,_ := strconv.Atoi(c.DefaultQuery("size","3"))
 	PageNum,_ := strconv.Atoi(c.DefaultQuery("page","1"))
@@ -63,7 +67,7 @@ func GetCategorys(c *gin.Context)  {
 }
 
 // 分类编辑
-func EditCategory(c *gin.Context)  {
+func (a *CategoryApi)EditCategory(c *gin.Context)  {
 	var data model.Category
 	id,_ := strconv.Atoi(c.Param("id"))
 	c.ShouldBindJSON(&data)
@@ -81,7 +85,7 @@ func EditCategory(c *gin.Context)  {
 }
 
 // 分类删除
-func DeleteCategory(c *gin.Context)  {
+func (a *CategoryApi)DeleteCategory(c *gin.Context)  {
 	id,_ := strconv.Atoi(c.Param("id"))
 	code = model.DeleteCategory(id)
 

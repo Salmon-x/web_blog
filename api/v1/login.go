@@ -8,7 +8,11 @@ import (
 	"net/http"
 )
 
-func Login(c *gin.Context)  {
+type LoginApi struct {
+
+}
+
+func (l *LoginApi)Login(c *gin.Context)  {
 	var formData model.User
 	_ = c.ShouldBindJSON(&formData)
 	var token string

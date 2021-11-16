@@ -31,54 +31,20 @@
 									<v-divider></v-divider>
 								</v-img>
 								<v-col>
-									<div class="ma-3">About</div>
-									<div class="ma-3">友情链接</div>
+									<div class="ma-3">About Me:</div>
+									<div class="ma-3">一个正在冉冉升起的博客</div>
+									<del class="ma-5">虽然升起的速度很慢</del>
 								</v-col>
 
 								<v-divider color="indigo"></v-divider>
 
 								<v-list nav dense>
 									<v-list-item>
-										<v-list-item-icon class="ma-3">
+										<!-- <v-list-item-icon class="ma-3">
 											<v-icon>{{'mdi-qqchat'}}</v-icon>
 										</v-list-item-icon>
-										<v-list-item-content class="grey-text">123123123</v-list-item-content>
-									</v-list-item>
-									<v-list-item>
-										<v-list-item-icon class="ma-3">
-											<v-icon>{{'mdi-qqchat'}}</v-icon>
-										</v-list-item-icon>
-										<v-list-item-content class="grey-text">123123123</v-list-item-content>
-									</v-list-item>
-									<v-list-item>
-										<v-list-item-icon class="ma-3">
-											<v-icon>{{'mdi-qqchat'}}</v-icon>
-										</v-list-item-icon>
-										<v-list-item-content class="grey-text">123123123</v-list-item-content>
-									</v-list-item>
-									<v-list-item>
-										<v-list-item-icon class="ma-3">
-											<v-icon>{{'mdi-qqchat'}}</v-icon>
-										</v-list-item-icon>
-										<v-list-item-content class="grey-text">123123123</v-list-item-content>
-									</v-list-item>
-									<v-list-item>
-										<v-list-item-icon class="ma-3">
-											<v-icon>{{'mdi-qqchat'}}</v-icon>
-										</v-list-item-icon>
-										<v-list-item-content class="grey-text">123123123</v-list-item-content>
-									</v-list-item>
-									<v-list-item>
-										<v-list-item-icon class="ma-3">
-											<v-icon>{{'mdi-qqchat'}}</v-icon>
-										</v-list-item-icon>
-										<v-list-item-content class="grey-text">123123123</v-list-item-content>
-									</v-list-item>
-									<v-list-item>
-										<v-list-item-icon class="ma-3">
-											<v-icon>{{'mdi-qqchat'}}</v-icon>
-										</v-list-item-icon>
-										<v-list-item-content class="grey-text">123123123</v-list-item-content>
+										<v-list-item-content class="grey-text">123123123</v-list-item-content> -->
+										<v-list-item-content>第一版先这样啦</v-list-item-content>
 									</v-list-item>
 								</v-list>
 
@@ -86,8 +52,9 @@
 						</v-navigation-drawer>
 						
 					</v-col>
+					
 					<v-col>
-						<v-sheet min-height="75vh" rounded="lg" :width="nav?'900':'1200'" style="transition: all 0.3s" color="red">
+						<v-sheet min-height="75vh" rounded="lg" :width="nav?'870':'1200'" style="transition: all 0.3s" >
 							<!-- 将路由匹配到的组件显示在这里 -->
 							<router-view></router-view>
 						</v-sheet>

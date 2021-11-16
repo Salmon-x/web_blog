@@ -13,9 +13,13 @@ import (
 	"time"
 )
 
+type FileApi struct {
+
+}
+
 
 // 上传文件
-func UploadFile(c *gin.Context){
+func (f *FileApi)UploadFile(c *gin.Context){
 	file, _, _ := c.Request.FormFile("file")
 	// 初始化
 	fs := goseaweed.NewSeaweedFs(utils.SeaweedAddress, time.Second * 10)
@@ -38,7 +42,7 @@ func UploadFile(c *gin.Context){
 }
 
 
-func GetFile(c *gin.Context){
+func (f *FileApi)GetFile(c *gin.Context){
 	fid := c.Query("fid")
 	fs := goseaweed.NewSeaweedFs("http://127.0.0.1:8081", time.Second * 10)
 	content,err := fs.GetFile(fid)
@@ -52,7 +56,7 @@ func GetFile(c *gin.Context){
 }
 
 // 删除文件
-func DelFile(c *gin.Context){
+func (f *FileApi)DelFile(c *gin.Context){
 	fid := c.Query("fid")
 	fs := goseaweed.NewSeaweedFs("http://127.0.0.1:8081", time.Second * 10)
 	err,code := fs.RemoveFile(fid)

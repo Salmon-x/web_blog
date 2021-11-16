@@ -1,7 +1,7 @@
 <template>
 	<v-col>
 		<!-- 内容卡片 -->
-		<v-card class="ma-3" v-for="item in Artlist" :key="item.id">
+		<v-card class="ma-3" v-for="item in Artlist" :key="item.id" link @click="$router.push(`details/${item.ID}/`)">
 			<v-row no-gutters>
 				<!-- <v-col class="d-flex justify-center align-center mx-3" cols="1"> -->
 					<!-- style="opacity: .7" -->
@@ -10,11 +10,10 @@
 					height="440px"
 					alt='图片正在加载'
 					:src="seaweedUrl+item.img">
-					<v-card-title style="justify-content: center;font-size: 20">
+					<v-card-title style="justify-content: center;font-size: 60; color:black">
 						{{item.title}}
 					</v-card-title>
 					</v-img>
-				
 				<v-col>
 					
 
@@ -22,10 +21,10 @@
 					<v-card-subtitle v-text="item.desc" style="text-align: center"></v-card-subtitle>
 					<v-card-text style="text-align: center">
 						<v-icon>mdi-calendar</v-icon>
-						<span>{{item.CreatedAt}}</span>
+						<span>{{item.CreatedAt | dataformat("YYYY-MM-DD")}}</span>
 						<span class="post-meta-divider" style="margin: 0 .5rem">-</span>
 						<v-icon>mdi-calendar-clock</v-icon>
-						<span>{{item.UpdatedAt}}</span>
+						<span>{{item.UpdatedAt | dataformat("YYYY-MM-DD")}}</span>
 					</v-card-text>
 					<!-- 分割线 -->
 					<v-divider></v-divider>
@@ -82,6 +81,10 @@ export default {
       })
 			this.Artlist = res.data
       this.total = res.total
+
+		window.pageYOffset = 0;
+		document.documentElement.scrollTop = 0
+		document.body.scrollTop = 0
     },
 	}
 }
