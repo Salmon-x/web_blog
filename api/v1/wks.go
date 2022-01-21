@@ -2,6 +2,7 @@ package v1
 
 import (
 	"blog/model"
+	"blog/model/response"
 	"blog/utils/errmsg"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -21,11 +22,7 @@ func (w *WksApi)AddWks(c *gin.Context)  {
 		model.Createwks(&data)
 	}
 
-	c.JSON(http.StatusOK,gin.H{
-		"code":code,
-		"msg":errmsg.GetErrorMsg(code),
-		"data":data,
-	})
+	response.Result(code, errmsg.GetErrorMsg(code), data, c)
 }
 
 

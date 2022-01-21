@@ -1,15 +1,12 @@
 package v1
 
 import (
-	"blog/utils"
+	"blog/model/response"
 	"blog/utils/errmsg"
 	"blog/utils/goseaweed"
-	"bytes"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"io"
 	"log"
-	"net/http"
 	"time"
 )
 
@@ -19,26 +16,36 @@ type FileApi struct {
 
 
 // 上传文件
-func (f *FileApi)UploadFile(c *gin.Context){
-	file, _, _ := c.Request.FormFile("file")
-	// 初始化
-	fs := goseaweed.NewSeaweedFs(utils.SeaweedAddress, time.Second * 10)
-	code = errmsg.SUCCSE
-	// 转换数据类型为bytes
-	buf := bytes.NewBuffer(nil)
-	if _, err := io.Copy(buf, file); err != nil {
+//func (f *FileApi)UploadFile(c *gin.Context){
+//	file, _, _ := c.Request.FormFile("file")
+//	// 初始化
+//	fs := goseaweed.NewSeaweedFs(utils.SeaweedAddress, time.Second * 10)
+//	code = errmsg.SUCCSE
+//	// 转换数据类型为bytes
+//	buf := bytes.NewBuffer(nil)
+//	if _, err := io.Copy(buf, file); err != nil {
+//		code = errmsg.ERROR
+//	}
+//	fid,err := fs.UploadFile("submit",buf.Bytes())
+//	// 上传文件
+//	if  err != nil {
+//		log.Fatalln(err)
+//	}
+//	c.JSON(http.StatusOK,gin.H{
+//		"code":code,
+//		"msg": errmsg.GetErrorMsg(code),
+//		"data": fid,
+//	})
+//}
+
+func (f *FileApi)UploadFile(c *gin.Context) {
+	file, _ := c.FormFile("file")
+	err := c.SaveUploadedFile(file, "static/"+file.Filename)
+	if err != nil{
 		code = errmsg.ERROR
 	}
-	fid,err := fs.UploadFile("submit",buf.Bytes())
 	// 上传文件
-	if  err != nil {
-		log.Fatalln(err)
-	}
-	c.JSON(http.StatusOK,gin.H{
-		"code":code,
-		"msg": errmsg.GetErrorMsg(code),
-		"data": fid,
-	})
+	response.Result(code, errmsg.GetErrorMsg(code), file.Filename, c)
 }
 
 
@@ -63,10 +70,7 @@ func (f *FileApi)DelFile(c *gin.Context){
 	if err != nil {
 		fmt.Println(err)
 	}
-	c.JSON(http.StatusOK,gin.H{
-		"code":code,
-		"msg": errmsg.GetErrorMsg(code),
-	})
+	response.Result(code, errmsg.GetErrorMsg(code), "", c)
 }
 
 /*

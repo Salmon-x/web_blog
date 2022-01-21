@@ -17,6 +17,10 @@ var (
 	DbUser     string
 	DbPassWord string
 	DbName     string
+
+	RedisHost string
+	RedisPort string
+	RedisPassword string
 )
 
 func init()  {
@@ -27,6 +31,7 @@ func init()  {
 
 	LoadServer(file)
 	LoadData(file)
+	LoadRedis(file)
 
 }
 
@@ -44,5 +49,12 @@ func LoadData(file *ini.File) {
 	DbUser = file.Section("database").Key("DbUser").MustString("root")
 	DbPassWord = file.Section("database").Key("DbPassWord").MustString("root")
 	DbName = file.Section("database").Key("DbName").MustString("blogdb")
+}
+
+// redis配置
+func LoadRedis(file *ini.File) {
+	RedisHost = file.Section("redis").Key("RedisHost").MustString("localhost")
+	RedisPort = file.Section("redis").Key("RedisPort").MustString("6379")
+	RedisPassword = file.Section("redis").Key("RedisPassword").MustString("")
 }
 

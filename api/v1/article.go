@@ -2,10 +2,10 @@ package v1
 
 import (
 	"blog/model"
+	"blog/model/response"
 	"blog/utils"
 	"blog/utils/errmsg"
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"strconv"
 )
 
@@ -22,11 +22,7 @@ func (a *ArticleApi)AddArticle(c *gin.Context)  {
 		code = errmsg.ERROR_USERNAME_USED
 	}
 
-	c.JSON(http.StatusOK,gin.H{
-		"code":errmsg.SUCCSE,
-		"msg":errmsg.GetErrorMsg(errmsg.SUCCSE),
-		"data":data,
-	})
+	response.Result(code, errmsg.GetErrorMsg(code), data, c)
 }
 
 // 查询文章列表
@@ -37,22 +33,11 @@ func (a *ArticleApi)GetArticles(c *gin.Context)  {
 	title := c.Query("title")
 	if len(title) == 0 {
 		data, code, total := model.GetArticles(Size, Page)
-		c.JSON(http.StatusOK, gin.H{
-			"code":  code,
-			"msg":   errmsg.GetErrorMsg(code),
-			"data":  data,
-			"total": total,
-		})
+		response.ResultAll(code, errmsg.GetErrorMsg(code), data, total, c)
 		return
 	}
 	data, code, total := model.SearchArticle(title,Size,Page)
-	c.JSON(http.StatusOK, gin.H{
-		"code":  code,
-		"data":    data,
-		"total":   total,
-		"msg": errmsg.GetErrorMsg(code),
-	})
-
+	response.ResultAll(code, errmsg.GetErrorMsg(code), data, total, c)
 }
 
 // 单个文章
@@ -62,11 +47,7 @@ func (a *ArticleApi)GetArticleInfo(c *gin.Context){
 	// 渲染成html
 	//data.Content = utils.Render(data.Content)
 
-	c.JSON(http.StatusOK,gin.H{
-		"code":code,
-		"msg":errmsg.GetErrorMsg(code),
-		"data":data,
-	})
+	response.Result(code, errmsg.GetErrorMsg(code), data, c)
 }
 
 func (a *ArticleApi)FrontArticleInfo(c *gin.Context){
@@ -75,11 +56,7 @@ func (a *ArticleApi)FrontArticleInfo(c *gin.Context){
 	// 渲染成html
 	data.Content = utils.Render(data.Content)
 
-	c.JSON(http.StatusOK,gin.H{
-		"code":code,
-		"msg":errmsg.GetErrorMsg(code),
-		"data":data,
-	})
+	response.Result(code, errmsg.GetErrorMsg(code), data, c)
 }
 
 
@@ -89,12 +66,7 @@ func (a *ArticleApi)GetCateArt(c *gin.Context)  {
 	Size,_ := strconv.Atoi(c.DefaultQuery("size","3"))
 	Page,_ := strconv.Atoi(c.DefaultQuery("page","1"))
 	data, code, total := model.GetCateArt(id, Size, Page)
-	c.JSON(http.StatusOK,gin.H{
-		"code":code,
-		"msg":errmsg.GetErrorMsg(code),
-		"data":data,
-		"total":total,
-	})
+	response.ResultAll(code, errmsg.GetErrorMsg(code), data, total, c)
 }
 
 // 文章编辑
@@ -105,10 +77,7 @@ func (a *ArticleApi)EditArticle(c *gin.Context)  {
 
 	code = model.UpdateArticle(id, &data)
 
-	c.JSON(http.StatusOK, gin.H{
-		"code":  code,
-		"msg": errmsg.GetErrorMsg(code),
-	})
+	response.Result(code, errmsg.GetErrorMsg(code), "", c)
 }
 
 // 文章删除
@@ -116,8 +85,5 @@ func (a *ArticleApi)DeleteArticle(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	code = model.DeleteArticle(id)
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  errmsg.GetErrorMsg(code),
-	})
+	response.Result(code, errmsg.GetErrorMsg(code), "", c)
 }

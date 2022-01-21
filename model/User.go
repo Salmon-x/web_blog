@@ -2,6 +2,7 @@ package model
 
 import (
 	"blog/utils/errmsg"
+	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"log"
@@ -161,4 +162,28 @@ func AdminEdit(id int, password string) int {
 		return errmsg.ERROR
 	}
 	return errmsg.SUCCSE
+}
+
+
+func NosOne()  {
+	var user User
+	Db.First(&user)
+	if user.ID > 0{
+		fmt.Println("成功初始化")
+		return
+	}
+	maps := map[string]interface{}{
+		"username":"Salmon",
+		"password":"$2a$10$OW34MAkDaCWTVKLBSVej.OXV/O00kqb0FuUtQ3t/PkncwBJbm.ujK",
+		"avatar":"null",
+		"role":1,
+	}
+	err := Db.Model(&User{}).Create(&maps).Error
+	if err != nil {
+		fmt.Println("启动脚本错误")
+		return
+	}
+	Db.Where("username=?", "Salmon").Update("role", 1)
+	fmt.Println("初始化成功")
+	return
 }

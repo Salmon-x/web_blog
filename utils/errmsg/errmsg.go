@@ -11,6 +11,7 @@ const (
 	ERROR_TOKEN_EXIST = 1004
 	ERROR_TOKEN_RUNTIME = 1005
 	ERROR_TOKEN_WRONG = 1006
+	ERROR_CAPTCHA_WRONG = 1010
 	ERROR_TOKEN_TYPE_WRONG = 1007
 	ERROR_USER_NO_RIGHT    = 1008
 
@@ -32,6 +33,7 @@ var CodeMsg = map[int]string{
 	ERROR:                  "FAIL",
 	ERROR_USERNAME_USED:    "用户名已存在！",
 	ERROR_PASSWORD_WRONG:   "密码错误",
+	ERROR_CAPTCHA_WRONG:   "验证码错误",
 	ERROR_USER_NOT_EXIST:   "用户不存在",
 	ERROR_USER_NO_RIGHT:    "权限不足",
 	ERROR_TOKEN_EXIST:      "TOKEN不存在,请重新登陆",

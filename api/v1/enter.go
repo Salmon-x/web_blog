@@ -7,4 +7,5 @@ type V1Group struct {
 	FileApi
 	WksApi
 	CategoryApi
+	CaptCapApi
 }

@@ -27,5 +27,8 @@ func V1RouterInit(r *gin.RouterGroup)  {
 		router.GET("article/:id/", ApiV1Router.GetArticleInfo)
 		router.GET("frontarticle/:id/", ApiV1Router.FrontArticleInfo)
 		router.GET("catelist/:id/", ApiV1Router.GetCateArt)
+
+		router.GET("/captcha/", ApiV1Router.GetCaptCha)
+		router.POST("/captcha/", ApiV1Router.VerifyCaptCha)
 	}
 }

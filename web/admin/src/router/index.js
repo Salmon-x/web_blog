@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
+import test from '../views/test.vue'
 import Admin from '../views/Admin.vue'
 import Index from "../components/Index.vue"
 import AddArt from "../components/article/Addart.vue"
@@ -17,6 +18,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+	{
+    path: '/test',
+    name: 'test',
+    component: test
   },
 	{
     path: '/',
@@ -41,7 +47,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from , next)=>{
 	const token = window.sessionStorage.getItem('token')
-	if(to.name == 'login') return next()
+	if(to.name == 'login' || to.name == "test") return next()
 	if(!token || to.name == 'admin'){
 		next('login')
 	}else{
