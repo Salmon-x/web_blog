@@ -10,6 +10,7 @@ var (
 	HttpPort string
 	JwtKey string
 	SeaweedAddress string
+	UseMultipoint bool
 
 	Db         string
 	DbHost     string
@@ -40,6 +41,7 @@ func LoadServer(file *ini.File)  {
 	HttpPort = file.Section("server").Key("HttpPort").MustString(":8020")
 	JwtKey = file.Section("server").Key("JwtKey").MustString("+d0(4=-$hy(cdl$tu^@509r#t$e60-1&v$09kb^tife&gfcfmd")
 	SeaweedAddress = file.Section("server").Key("SeaweedAddress").MustString("127.0.0.1:9333")
+	UseMultipoint = file.Section("server").Key("UseMultipoint").MustBool(false)
 }
 
 func LoadData(file *ini.File) {

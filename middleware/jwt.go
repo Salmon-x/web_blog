@@ -1,12 +1,15 @@
 package middleware
 
 import (
+	"blog/db"
 	"blog/model"
+	"blog/model/response"
 	"blog/utils"
 	"blog/utils/errmsg"
+	"context"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"net/http"
+	"log"
 	"strings"
 	"time"
 )
@@ -57,7 +60,7 @@ func CheckToken(token string) (*MyClaims, int) {
 }
 
 
-// jwt中间件
+// jwt管理员中间件
 func JwtToken() gin.HandlerFunc{
 	return func(c *gin.Context) {
 		// 接收参数
@@ -65,10 +68,7 @@ func JwtToken() gin.HandlerFunc{
 		// 如果不存在
 		if tokenHeader == ""{
 			code = errmsg.ERROR_TOKEN_EXIST
-			c.JSON(http.StatusOK, gin.H{
-				"code":code,
-				"msg":errmsg.GetErrorMsg(code),
-			})
+			response.Result(code, errmsg.GetErrorMsg(code), "", c)
 			c.Abort()
 			return
 		}
@@ -76,21 +76,32 @@ func JwtToken() gin.HandlerFunc{
 		checkToken := strings.SplitN(tokenHeader, " ", 2)
 		if len(checkToken) != 2 && checkToken[0] != "Bearer" {
 			code = errmsg.ERROR_TOKEN_TYPE_WRONG
-			c.JSON(http.StatusOK, gin.H{
-				"code":code,
-				"msg":errmsg.GetErrorMsg(code),
-			})
+			response.Result(code, errmsg.GetErrorMsg(code), "", c)
 			c.Abort()
 			return
+		}
+
+		// 单点登录是否启动
+		if utils.UseMultipoint{
+			RedisToken,err := db.RedisClient.Get(context.Background(), "admin").Result()
+			if err != nil {
+				log.Println("获取RedisToken失败", err)
+			}
+			if RedisToken == "" {
+				response.Result(errmsg.ERROR, errmsg.GetErrorMsg(errmsg.ERROR), "", c)
+				c.Abort()
+				return
+			} else if RedisToken != checkToken[1] {
+				response.Result(errmsg.ERROR_TOKEN_BLACK, errmsg.GetErrorMsg(errmsg.ERROR_TOKEN_BLACK), "", c)
+				c.Abort()
+				return
+			}
 		}
 		// 验证token
 		key,Tcode := CheckToken(checkToken[1])
 		if Tcode == errmsg.ERROR {
 			code = errmsg.ERROR_TOKEN_WRONG
-			c.JSON(http.StatusOK, gin.H{
-				"code":code,
-				"msg":errmsg.GetErrorMsg(code),
-			})
+			response.Result(code, errmsg.GetErrorMsg(code), "", c)
 			c.Abort()
 			return
 		}
@@ -98,20 +109,14 @@ func JwtToken() gin.HandlerFunc{
 		var user model.User
 		model.Db.Where("username=?",key.Username).First(&user)
 		if user.Role != 1{
-			c.JSON(http.StatusOK, gin.H{
-				"code":errmsg.ERROR_USER_NO_RIGHT,
-				"msg":errmsg.GetErrorMsg(errmsg.ERROR_USER_NO_RIGHT),
-			})
+			response.Result(code, errmsg.GetErrorMsg(code), "", c)
 			c.Abort()
 			return
 		}
 		// 过期情况
 		if time.Now().Unix() > key.ExpiresAt{
 			code = errmsg.ERROR_TOKEN_RUNTIME
-			c.JSON(http.StatusOK, gin.H{
-				"code":code,
-				"msg":errmsg.GetErrorMsg(code),
-			})
+			response.Result(code, errmsg.GetErrorMsg(code), "", c)
 			c.Abort()
 			return
 		}
