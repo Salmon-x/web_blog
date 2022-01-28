@@ -31,7 +31,5 @@ func InitRouter()  {
 	r.GET("admin", func(c *gin.Context) {
 		c.HTML(200, "index.html", nil)
 	})
-
 	_ = r.Run(utils.HttpPort)
-
 }

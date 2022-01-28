@@ -38,7 +38,7 @@
         @change="handleTableChange"
       >
         <span class="ArtImg" slot="img" slot-scope="img">
-          <img :src="'http://localhost:8081/'+img" />
+          <img :src="'http://localhost:8080/'+img" />
         </span>
         <template slot="action" slot-scope="data">
           <div class="actionSlot">

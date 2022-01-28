@@ -30,7 +30,7 @@
 					<br/>
 					<template v-if="id">
 						<!-- <img v-if="artInfo.img" :src="baseurl+artInfo.img" style="width:120px;height:100px"> -->
-						<img v-if="artInfo.img" :src="'http://localhost:8081/'+artInfo.img" style="width:120px;height:100px">
+						<img v-if="artInfo.img" :src="'http://localhost:8080/'+artInfo.img" style="width:120px;height:100px">
 					</template>
 				</a-upload>
 			</a-form-model-item>
@@ -194,7 +194,7 @@ export default {
 			var formdata = new FormData();
 			formdata.append('file', $file);
 			const {data: res} = await this.$http.post("/api/admin/file/",formdata,{ 'Content-Type': 'multipart/form-data' })
-			this.$refs.md.$imglst2Url([[pos, "http://localhost:8081/"+res.data]])
+			this.$refs.md.$imglst2Url([[pos, "http://localhost:8080/"+res.data]])
     },
 		async $imgDel(pos){
 			var fid = pos[0].split("/")

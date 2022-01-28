@@ -1,6 +1,7 @@
 package model
 
 import (
+	"blog/model/schemas"
 	"blog/utils/errmsg"
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
@@ -133,14 +134,14 @@ func (u *User) BeforeCreate(_ *gorm.DB) (err error) {
 
 
 // 登陆验证
-func CheckLogin(username string, password string) (User,int) {
+func CheckLogin(data schemas.Login) (User,int) {
 	var user User
 	var PasswordErr error
-	Db.Where("username=?",username).First(&user)
+	Db.Where("username=?",data.Username).First(&user)
 	if user.ID == 0{
 		return user,errmsg.ERROR_USER_NOT_EXIST
 	}
-	PasswordErr = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	PasswordErr = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(data.Password))
 	if PasswordErr != nil {
 		return user, errmsg.ERROR_PASSWORD_WRONG
 	}
