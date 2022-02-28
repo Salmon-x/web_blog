@@ -31,5 +31,8 @@ func InitRouter()  {
 	r.GET("admin", func(c *gin.Context) {
 		c.HTML(200, "index.html", nil)
 	})
+	// 由于gorm.Model找不到的问题未解决，先进行放弃
+	//docs.SwaggerInfo.BasePath = "/api/v1"
+	//r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	_ = r.Run(utils.HttpPort)
 }

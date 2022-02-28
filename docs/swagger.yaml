@@ -1,0 +1,28 @@
+definitions:
+  response.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      msg:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /admin/article/:
+    post:
+      consumes:
+      - application/json
+      description: do ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 新增文章
+      tags:
+      - 文章模块
+swagger: "2.0"

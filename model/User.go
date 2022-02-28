@@ -171,6 +171,9 @@ func NosOne()  {
 	Db.First(&user)
 	if user.ID > 0{
 		fmt.Println("成功初始化")
+		fmt.Println("后台地址: /admin")
+		fmt.Println("初始化管理员账号: Salmon")
+		fmt.Println("初始化管理员密码: 123456")
 		return
 	}
 	maps := map[string]interface{}{
@@ -186,5 +189,8 @@ func NosOne()  {
 	}
 	Db.Where("username=?", "Salmon").Update("role", 1)
 	fmt.Println("初始化成功")
+	fmt.Println("后台地址: /admin")
+	fmt.Println("初始化管理员账号: Salmon")
+	fmt.Println("初始化管理员密码: 123456")
 	return
 }

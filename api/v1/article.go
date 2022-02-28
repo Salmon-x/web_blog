@@ -12,8 +12,17 @@ import (
 type ArticleApi struct {
 
 }
+// @BasePath /api
 
-// 添加文章
+// PingExample godoc
+// @Summary 新增文章
+// @Tags 文章模块
+// @Schemes
+// @Description do ping
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Router /admin/article/ [post]
 func (a *ArticleApi)AddArticle(c *gin.Context)  {
 	var data model.Article
 	_ = c.ShouldBindJSON(&data)
