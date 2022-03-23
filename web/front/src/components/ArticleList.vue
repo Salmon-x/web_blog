@@ -5,7 +5,7 @@
 			<v-row no-gutters>
 				<!-- <v-col class="d-flex justify-center align-center mx-3" cols="1"> -->
 					<!-- style="opacity: .7" -->
-					<v-img 
+					<v-img
 					width="100%"
 					height="440px"
 					alt='图片正在加载'
@@ -15,9 +15,9 @@
 					</v-card-title>
 					</v-img>
 				<v-col>
-					
 
-					
+
+
 					<v-card-subtitle v-text="item.desc" style="text-align: center"></v-card-subtitle>
 					<v-card-text style="text-align: center">
 						<v-icon>mdi-calendar</v-icon>
@@ -36,7 +36,7 @@
 							<span>标签</span>
 						</span>
 					</v-card-text>
-					
+
 				</v-col>
 			</v-row>
 		</v-card>
@@ -56,7 +56,7 @@
 export default {
 	data(){
 		return{
-			seaweedUrl:'http://localhost:8081/',
+			seaweedUrl:'http://localhost:8080/',
 			Artlist:[],
 			queryParam:{
 				title:'',

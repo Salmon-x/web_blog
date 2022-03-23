@@ -8,8 +8,8 @@ import (
 
 //func createMyRender() multitemplate.Renderer {
 //	p := multitemplate.NewRenderer()
-//	p.AddFromFiles("admin", "web/admin/dist/index.html")
-//	p.AddFromFiles("front", "web/front/dist/index.html")
+//	p.AddFromFiles("admin", "static/admin/index.html")
+//	p.AddFromFiles("front", "static/front/index.html")
 //	return p
 //}
 
@@ -27,10 +27,10 @@ func InitRouter()  {
 	}
 	r.LoadHTMLGlob("static/admin/index.html")
 	r.Static("admin","static/admin")
-
 	r.GET("admin", func(c *gin.Context) {
 		c.HTML(200, "index.html", nil)
 	})
+
 	// 由于gorm.Model找不到的问题未解决，先进行放弃
 	//docs.SwaggerInfo.BasePath = "/api/v1"
 	//r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))

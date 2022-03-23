@@ -11,6 +11,7 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"log"
+	"net/http"
 	"time"
 )
 
@@ -43,4 +44,19 @@ func (l *LoginApi)Login(c *gin.Context)  {
 		return
 	}
 	response.Result(errmsg.ERROR_CAPTCHA_WRONG, errmsg.GetErrorMsg(errmsg.ERROR_CAPTCHA_WRONG), "", c)
+}
+
+
+func (l *LoginApi)LoginFront(c *gin.Context) {
+	var formData model.User
+	_ = c.ShouldBindJSON(&formData)
+
+	formData, code = model.CheckLoginFront(formData.Username, formData.Password)
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    formData.Username,
+		"id":      formData.ID,
+		"message": errmsg.GetErrorMsg(code),
+	})
 }
