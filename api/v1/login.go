@@ -16,38 +16,36 @@ import (
 )
 
 type LoginApi struct {
-
 }
 
-func (l *LoginApi)Login(c *gin.Context)  {
+func (l *LoginApi) Login(c *gin.Context) {
 	var (
 		formData schemas.Login
-		token string
-		code int
-		user model.User
+		token    string
+		code     int
+		user     model.User
 	)
 	_ = c.ShouldBindJSON(&formData)
-	if store.Verify(formData.CaptchaId, formData.Captcha, true){
+	if store.Verify(formData.CaptchaId, formData.Captcha, true) {
 		// 验证用户名密码
 		user, code = model.CheckLogin(formData)
-		if code == errmsg.SUCCSE{
+		if code == errmsg.SUCCSE {
 			// 成功则签发token
 			token, code = middleware.SetToken(user.Username)
-			if utils.UseMultipoint{
-				if err := db.RedisClient.Set(context.Background(),"admin", token, 10 * time.Hour).Err();err != nil {
-					log.Println("设置状态错误: ",err)
+			if utils.UseMultipoint {
+				if err := db.RedisClient.Set(context.Background(), "admin", token, 10*time.Hour).Err(); err != nil {
+					log.Println("设置状态错误: ", err)
 					utils.Logger(err)
 				}
 			}
 		}
-		response.Result(code, errmsg.GetErrorMsg(code), token, c)
+		response.Result(code, token, c)
 		return
 	}
-	response.Result(errmsg.ERROR_CAPTCHA_WRONG, errmsg.GetErrorMsg(errmsg.ERROR_CAPTCHA_WRONG), "", c)
+	response.Result(errmsg.ERROR_CAPTCHA_WRONG, "", c)
 }
 
-
-func (l *LoginApi)LoginFront(c *gin.Context) {
+func (l *LoginApi) LoginFront(c *gin.Context) {
 	var formData model.User
 	_ = c.ShouldBindJSON(&formData)
 

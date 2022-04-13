@@ -1,8 +1,10 @@
 package response
 
 import (
-	"github.com/gin-gonic/gin"
+	"blog/utils/errmsg"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Response struct {
@@ -16,7 +18,8 @@ type ResponseAll struct {
 	Total int64 `json:"total"`
 }
 
-func Result(code int, msg string, data interface{}, c *gin.Context) {
+func Result(code int, data interface{}, c *gin.Context) {
+	msg := errmsg.GetErrorMsg(code)
 	c.JSON(http.StatusOK, Response{
 		code,
 		data,
@@ -24,10 +27,11 @@ func Result(code int, msg string, data interface{}, c *gin.Context) {
 	})
 }
 
-func ResultAll(code int, msg string, data interface{}, total int64, c *gin.Context)  {
+func ResultAll(code int, data interface{}, total int64, c *gin.Context) {
+
 	result := ResponseAll{}
 	result.Code = code
-	result.Msg = msg
+	result.Msg = errmsg.GetErrorMsg(code)
 	result.Data = data
 	result.Total = total
 	c.JSON(http.StatusOK, result)

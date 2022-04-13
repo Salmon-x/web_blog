@@ -9,12 +9,10 @@ import (
 )
 
 type CategoryApi struct {
-
 }
 
-
 // 添加分类
-func (a *CategoryApi)AddCategory(c *gin.Context)  {
+func (a *CategoryApi) AddCategory(c *gin.Context) {
 	var data model.Category
 	_ = c.ShouldBindJSON(&data)
 	code = model.CheckCategory(data.Name)
@@ -25,46 +23,46 @@ func (a *CategoryApi)AddCategory(c *gin.Context)  {
 		code = errmsg.ERROR_CATENAME_USED
 	}
 
-	response.Result(code, errmsg.GetErrorMsg(code), data, c)
+	response.Result(code, data, c)
 }
 
 // 查询单个分类信息
-func (a *CategoryApi)GetCateInfo(c *gin.Context) {
+func (a *CategoryApi) GetCateInfo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	data, code := model.GetCateInfo(id)
 
-	response.Result(code, errmsg.GetErrorMsg(code), data, c)
+	response.Result(code, data, c)
 }
 
 // 查询分类列表
-func (a *CategoryApi)GetCategorys(c *gin.Context)  {
+func (a *CategoryApi) GetCategorys(c *gin.Context) {
 	// 字符串转int
-	PageSize,_ := strconv.Atoi(c.DefaultQuery("size","3"))
-	PageNum,_ := strconv.Atoi(c.DefaultQuery("page","1"))
-	data,total := model.GetCategorys(PageSize,PageNum)
+	PageSize, _ := strconv.Atoi(c.DefaultQuery("size", "3"))
+	PageNum, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	data, total := model.GetCategorys(PageSize, PageNum)
 	code = errmsg.SUCCSE
-	response.ResultAll(code, errmsg.GetErrorMsg(code), data, total, c)
+	response.ResultAll(code, data, total, c)
 }
 
 // 分类编辑
-func (a *CategoryApi)EditCategory(c *gin.Context)  {
+func (a *CategoryApi) EditCategory(c *gin.Context) {
 	var data model.Category
-	id,_ := strconv.Atoi(c.Param("id"))
+	id, _ := strconv.Atoi(c.Param("id"))
 	_ = c.ShouldBindJSON(&data)
 	code = model.CheckCategory(data.Name)
-	if code == errmsg.SUCCSE{
+	if code == errmsg.SUCCSE {
 		model.UpdateCategory(id, &data)
 	}
-	if code == errmsg.ERROR_USERNAME_USED{
+	if code == errmsg.ERROR_USERNAME_USED {
 		c.Abort()
 	}
-	response.Result(code, errmsg.GetErrorMsg(code), "", c)
+	response.Result(code, "", c)
 }
 
 // 分类删除
-func (a *CategoryApi)DeleteCategory(c *gin.Context)  {
-	id,_ := strconv.Atoi(c.Param("id"))
+func (a *CategoryApi) DeleteCategory(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
 	code = model.DeleteCategory(id)
-	response.Result(code, errmsg.GetErrorMsg(code), "", c)
+	response.Result(code, "", c)
 }
