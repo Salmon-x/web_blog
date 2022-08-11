@@ -4,7 +4,6 @@ import (
 	"blog/model"
 	"blog/model/response"
 	"blog/utils/errmsg"
-	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -17,23 +16,18 @@ type WksApi struct {
 func (w *WksApi) AddWks(c *gin.Context) {
 	var data model.WellKnownSaying
 	_ = c.ShouldBindJSON(&data)
-	code = model.Checkwks(data.Title)
+	code := model.Checkwks(data.Title)
 	if code == errmsg.SUCCSE {
-		model.Createwks(&data)
+		data.Createwks()
 	}
-
 	response.Result(code, data, c)
 }
 
 // 查询分类列表
 func (w *WksApi) GetWks(c *gin.Context) {
 	data := model.GetWks()
-	code = errmsg.SUCCSE
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  errmsg.GetErrorMsg(code),
-		"data": data,
-	})
+	code := errmsg.SUCCSE
+	response.Result(code, data, c)
 }
 
 // 查询单个分类信息
@@ -41,14 +35,7 @@ func (w *WksApi) GetWksInfo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	data, code := model.GetWksInfo(id)
-
-	c.JSON(
-		http.StatusOK, gin.H{
-			"status":  code,
-			"data":    data,
-			"message": errmsg.GetErrorMsg(code),
-		},
-	)
+	response.Result(code, data, c)
 }
 
 // 分类编辑
@@ -56,26 +43,19 @@ func (w *WksApi) EditWks(c *gin.Context) {
 	var data model.WellKnownSaying
 	id, _ := strconv.Atoi(c.Param("id"))
 	_ = c.ShouldBindJSON(&data)
-	code = model.Checkwks(data.Title)
+	code := model.Checkwks(data.Title)
 	if code == errmsg.SUCCSE {
-		model.UpdateWks(id, &data)
+		data.UpdateWks(id)
 	}
 	if code == errmsg.ERROR_WKS_USED {
 		c.Abort()
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  errmsg.GetErrorMsg(code),
-	})
+	response.Result(code, "", c)
 }
 
 // 分类删除
 func (w *WksApi) DeleteWks(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	code = model.DeleteWks(id)
-
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  errmsg.GetErrorMsg(code),
-	})
+	code := model.DeleteWks(id)
+	response.Result(code, "", c)
 }

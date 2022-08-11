@@ -6,11 +6,12 @@ import (
 )
 
 var (
-	AppMode string
-	HttpPort string
-	JwtKey string
+	AppMode        string
+	HttpPort       string
+	JwtKey         string
 	SeaweedAddress string
-	UseMultipoint bool
+	UseMultipoint  bool
+	TransferTable  bool
 
 	Db         string
 	DbHost     string
@@ -19,29 +20,29 @@ var (
 	DbPassWord string
 	DbName     string
 
-	RedisHost string
-	RedisPort string
+	RedisHost     string
+	RedisPort     string
 	RedisPassword string
 )
 
-func init()  {
+func init() {
 	file, err := ini.Load("config/config.ini")
 	if err != nil {
 		fmt.Println("配置文件读取错误，请检查路径", err)
 	}
-
 	LoadServer(file)
 	LoadData(file)
 	LoadRedis(file)
 
 }
 
-func LoadServer(file *ini.File)  {
+func LoadServer(file *ini.File) {
 	AppMode = file.Section("server").Key("AppMode").MustString("debug")
 	HttpPort = file.Section("server").Key("HttpPort").MustString(":8020")
 	JwtKey = file.Section("server").Key("JwtKey").MustString("+d0(4=-$hy(cdl$tu^@509r#t$e60-1&v$09kb^tife&gfcfmd")
 	SeaweedAddress = file.Section("server").Key("SeaweedAddress").MustString("127.0.0.1:9333")
 	UseMultipoint = file.Section("server").Key("UseMultipoint").MustBool(false)
+	TransferTable = file.Section("server").Key("TransferTable").MustBool(false)
 }
 
 func LoadData(file *ini.File) {
@@ -59,4 +60,3 @@ func LoadRedis(file *ini.File) {
 	RedisPort = file.Section("redis").Key("RedisPort").MustString("6379")
 	RedisPassword = file.Section("redis").Key("RedisPassword").MustString("")
 }
-

@@ -1,21 +1,21 @@
 package model
 
 import (
+	"blog/global"
 	"blog/utils/errmsg"
 	"gorm.io/gorm"
 )
 
 type WellKnownSaying struct {
-	Id uint `gorm:"primary_key;auto_increment" json:"id"`
+	Id    uint   `gorm:"primary_key;auto_increment" json:"id"`
 	Title string `gorm:"type:varchar(200);not null" json:"title"`
 }
 
-
 // 存在性判断
-func Checkwks(title string)(code int) {
+func Checkwks(title string) (code int) {
 	var wks WellKnownSaying
 	// 查询用户是否存在
-	Db.Select("id").Where("title=?",title).First(&wks)
+	global.Db.Select("id").Where("title=?", title).First(&wks)
 	if wks.Id > 0 {
 		// 如果存在则引出错误
 		return errmsg.ERROR_WKS_USED
@@ -25,21 +25,20 @@ func Checkwks(title string)(code int) {
 }
 
 // 添加分类
-func Createwks(data *WellKnownSaying)int  {
+func (model *WellKnownSaying) Createwks() int {
 	// 添加时接收一下错误
-	err := Db.Create(&data).Error
-	if err!=nil {
+	err := global.Db.Create(&model).Error
+	if err != nil {
 		return errmsg.ERROR
 	}
 	return errmsg.SUCCSE
 }
 
-
 // 分类列表
-func GetWks()([]WellKnownSaying)  {
+func GetWks() []WellKnownSaying {
 	var wks []WellKnownSaying
 	// 分页
-	err = Db.Find(&wks).Error
+	err := global.Db.Find(&wks).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil
 	}
@@ -47,18 +46,18 @@ func GetWks()([]WellKnownSaying)  {
 	return wks
 }
 
-func GetWksInfo(id int) (WellKnownSaying,int) {
+func GetWksInfo(id int) (WellKnownSaying, int) {
 	var cate WellKnownSaying
-	Db.Where("id = ?",id).First(&cate)
-	return cate,errmsg.SUCCSE
+	global.Db.Where("id = ?", id).First(&cate)
+	return cate, errmsg.SUCCSE
 }
 
 // 编辑分类
-func UpdateWks(id int, data *WellKnownSaying) int {
+func (model *WellKnownSaying) UpdateWks(id int) int {
 	var wks WellKnownSaying
 	var maps = make(map[string]interface{})
-	maps["title"] = data.Title
-	err = Db.Model(&wks).Where("id = ? ", id).Updates(maps).Error
+	maps["title"] = model.Title
+	err := global.Db.Model(&wks).Where("id = ? ", id).Updates(maps).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -68,8 +67,8 @@ func UpdateWks(id int, data *WellKnownSaying) int {
 // 删除分类
 func DeleteWks(id int) int {
 	var cate WellKnownSaying
-	err = Db.Where("id = ?", id).Delete(&cate).Error
-	if err != nil{
+	err := global.Db.Where("id = ?", id).Delete(&cate).Error
+	if err != nil {
 		return errmsg.ERROR
 	}
 	return errmsg.SUCCSE

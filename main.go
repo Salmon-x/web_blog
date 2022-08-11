@@ -1,20 +1,13 @@
 package main
 
 import (
-	"blog/db"
+	_ "blog/initialize"
 	"blog/model"
 	"blog/routes"
+	_ "blog/utils"
 )
 
-func main()  {
-	model.InitDb()
-	// 执行初始化脚本
+func main() {
 	model.NosOne()
-	db.RedisInit()
-	//if model.Db != nil {
-	//	sql_db, _ := model.Db.DB()
-	//	defer sql_db.Close()
-	//}
 	routes.InitRouter()
 }
-

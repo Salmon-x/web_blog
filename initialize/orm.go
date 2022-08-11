@@ -1,6 +1,8 @@
-package model
+package initialize
 
 import (
+	"blog/global"
+	"blog/model"
 	"blog/utils"
 	"fmt"
 	"gorm.io/driver/mysql"
@@ -10,11 +12,7 @@ import (
 	"time"
 )
 
-var Db *gorm.DB
-var err error
-
-
-func InitDb()  {
+func inItDb() {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		utils.DbUser,
 		utils.DbPassWord,
@@ -22,8 +20,8 @@ func InitDb()  {
 		utils.DbPort,
 		utils.DbName,
 	)
-
-	Db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+	var err error
+	global.Db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		// gorm日志模式：silent
 		Logger: logger.Default.LogMode(logger.Silent),
 		// 外键约束
@@ -36,13 +34,15 @@ func InitDb()  {
 		},
 	})
 
-	if err != nil{
+	if err != nil {
 		fmt.Println("链接数据库失败。", err)
 	}
-	// 迁移数据表，在没有数据表结构变更时候，建议注释不执行
-	_ = Db.AutoMigrate(&User{}, &Article{}, &Category{},&WellKnownSaying{}, &Comment{})
+	if utils.TransferTable {
+		// 迁移数据表
+		_ = global.Db.AutoMigrate(&model.User{}, &model.Article{}, &model.Category{}, &model.WellKnownSaying{}, &model.Comment{})
+	}
 
-	sqlDB, _ := Db.DB()
+	sqlDB, _ := global.Db.DB()
 	// SetMaxIdleCons 设置连接池中的最大闲置连接数。
 	sqlDB.SetMaxIdleConns(10)
 
@@ -51,15 +51,4 @@ func InitDb()  {
 
 	// SetConnMaxLifetiment 设置连接的最大可复用时间。
 	sqlDB.SetConnMaxLifetime(10 * time.Second)
-
-	//var users User
-	//Db.First(&users)
-	//if users.ID == 0 {
-	//	var data User
-	//	data.Username = "Salmon"
-	//	data.Password = "123456"
-	//	data.Avatar = "null"
-	//	data.Role = 1
-	//	Db.Create(&data)
-	//}
 }

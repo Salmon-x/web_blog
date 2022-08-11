@@ -14,14 +14,11 @@ import (
 type UserApi struct {
 }
 
-var code int
-
 // 添加用户
 func (u *UserApi) AddUser(c *gin.Context) {
 	var data model.User
-	var msg string
 	_ = c.ShouldBindJSON(&data)
-	msg, code = validator.Validate(&data)
+	msg, code := validator.Validate(&data)
 	if code != errmsg.SUCCSE {
 		c.JSON(http.StatusOK, gin.H{
 			"code": code,
@@ -33,16 +30,12 @@ func (u *UserApi) AddUser(c *gin.Context) {
 	}
 	code = model.CheckUser(data.Username)
 	if code == errmsg.SUCCSE {
-		model.CreateUser(&data)
+		data.CreateUser()
 	}
 	if code == errmsg.ERROR_USERNAME_USED {
 		code = errmsg.ERROR_USERNAME_USED
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"data": data,
-		"msg":  msg,
-	})
+	response.Result(code, data, c)
 }
 
 // 查询用户
@@ -59,7 +52,7 @@ func (u *UserApi) GetUsers(c *gin.Context) {
 	Page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	username := c.Query("username")
 	data, total := model.GetUsers(username, Size, Page)
-	response.ResultAll(code, data, total, c)
+	response.ResultAll(errmsg.SUCCSE, data, total, c)
 }
 
 // 用户编辑
@@ -67,9 +60,9 @@ func (u *UserApi) EditUser(c *gin.Context) {
 	var data model.User
 	id, _ := strconv.Atoi(c.Param("id"))
 	_ = c.ShouldBindJSON(&data)
-	code = model.UniqueUser(data.Username, id)
+	code := model.UniqueUser(data.Username, id)
 	if code == errmsg.SUCCSE {
-		model.UpdateUser(id, &data)
+		data.UpdateUser(id)
 	}
 	if code == errmsg.ERROR_USERNAME_USED {
 		c.Abort()
@@ -82,7 +75,7 @@ func (u *UserApi) DeleteUser(c *gin.Context) {
 	// 接收id
 	id, _ := strconv.Atoi(c.Param("id"))
 	// 执行方法
-	code = model.DeleteUser(id)
+	code := model.DeleteUser(id)
 	// 返回
 	response.Result(code, "", c)
 }
@@ -92,7 +85,7 @@ func (u *UserApi) AdminEditPass(c *gin.Context) {
 	var password map[string]string
 	_ = c.ShouldBindJSON(&password)
 	id, _ := strconv.Atoi(c.Param("id"))
-	code = model.AdminEdit(id, password["password"])
+	code := model.AdminEdit(id, password["password"])
 	// 返回
 	response.Result(code, "", c)
 }

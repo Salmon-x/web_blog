@@ -15,9 +15,9 @@ type CategoryApi struct {
 func (a *CategoryApi) AddCategory(c *gin.Context) {
 	var data model.Category
 	_ = c.ShouldBindJSON(&data)
-	code = model.CheckCategory(data.Name)
+	code := model.CheckCategory(data.Name)
 	if code == errmsg.SUCCSE {
-		model.CreateCategory(&data)
+		data.CreateCategory()
 	}
 	if code == errmsg.ERROR_CATENAME_USED {
 		code = errmsg.ERROR_CATENAME_USED
@@ -41,8 +41,7 @@ func (a *CategoryApi) GetCategorys(c *gin.Context) {
 	PageSize, _ := strconv.Atoi(c.DefaultQuery("size", "3"))
 	PageNum, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	data, total := model.GetCategorys(PageSize, PageNum)
-	code = errmsg.SUCCSE
-	response.ResultAll(code, data, total, c)
+	response.ResultAll(errmsg.SUCCSE, data, total, c)
 }
 
 // 分类编辑
@@ -50,9 +49,9 @@ func (a *CategoryApi) EditCategory(c *gin.Context) {
 	var data model.Category
 	id, _ := strconv.Atoi(c.Param("id"))
 	_ = c.ShouldBindJSON(&data)
-	code = model.CheckCategory(data.Name)
+	code := model.CheckCategory(data.Name)
 	if code == errmsg.SUCCSE {
-		model.UpdateCategory(id, &data)
+		data.UpdateCategory(id)
 	}
 	if code == errmsg.ERROR_USERNAME_USED {
 		c.Abort()
@@ -63,6 +62,6 @@ func (a *CategoryApi) EditCategory(c *gin.Context) {
 // 分类删除
 func (a *CategoryApi) DeleteCategory(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	code = model.DeleteCategory(id)
+	code := model.DeleteCategory(id)
 	response.Result(code, "", c)
 }

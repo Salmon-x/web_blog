@@ -18,6 +18,7 @@ type FileApi struct {
 // 上传文件
 
 func (f *FileApi) UploadFile(c *gin.Context) {
+	var code int
 	file, _, _ := c.Request.FormFile("file")
 	// 初始化
 	fs := goseaweed.NewSeaweedFs(utils.SeaweedAddress, time.Second*10)

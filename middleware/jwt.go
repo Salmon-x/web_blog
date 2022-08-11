@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"blog/db"
+	"blog/global"
 	"blog/model"
 	"blog/model/response"
 	"blog/utils"
@@ -107,7 +108,7 @@ func JwtToken() gin.HandlerFunc {
 		}
 		// 验证权限
 		var user model.User
-		model.Db.Where("username=?", key.Username).First(&user)
+		global.Db.Where("username=?", key.Username).First(&user)
 		if user.Role != 1 {
 			response.Result(code, "", c)
 			c.Abort()

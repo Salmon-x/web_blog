@@ -48,9 +48,7 @@ func (l *LoginApi) Login(c *gin.Context) {
 func (l *LoginApi) LoginFront(c *gin.Context) {
 	var formData model.User
 	_ = c.ShouldBindJSON(&formData)
-
-	formData, code = model.CheckLoginFront(formData.Username, formData.Password)
-
+	formData, code := model.CheckLoginFront(formData.Username, formData.Password)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    formData.Username,

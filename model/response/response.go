@@ -19,16 +19,14 @@ type ResponseAll struct {
 }
 
 func Result(code int, data interface{}, c *gin.Context) {
-	msg := errmsg.GetErrorMsg(code)
 	c.JSON(http.StatusOK, Response{
 		code,
 		data,
-		msg,
+		errmsg.GetErrorMsg(code),
 	})
 }
 
 func ResultAll(code int, data interface{}, total int64, c *gin.Context) {
-
 	result := ResponseAll{}
 	result.Code = code
 	result.Msg = errmsg.GetErrorMsg(code)

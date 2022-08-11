@@ -2,6 +2,7 @@ package v1
 
 import (
 	"blog/model"
+	"blog/model/response"
 	"blog/utils/errmsg"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -9,45 +10,33 @@ import (
 )
 
 type CommentApi struct {
-	
 }
 
 // AddComment 新增评论
-func (co *CommentApi)AddComment(c *gin.Context) {
+func (co *CommentApi) AddComment(c *gin.Context) {
 	var data model.Comment
 	_ = c.ShouldBindJSON(&data)
 
 	code := model.AddComment(&data)
-	c.JSON(http.StatusOK, gin.H{
-		"status":  code,
-		"data":    data,
-		"message": errmsg.GetErrorMsg(code),
-	})
+	response.Result(code, data, c)
 }
 
 // GetComment 获取单个评论信息
-func (co *CommentApi)GetComment(c *gin.Context)  {
+func (co *CommentApi) GetComment(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	data,code := model.GetComment(id)
-	c.JSON(http.StatusOK, gin.H{
-		"status":  code,
-		"data":    data,
-		"message": errmsg.GetErrorMsg(code),
-	})
+	data, code := model.GetComment(id)
+	response.Result(code, data, c)
 }
 
 // DeleteComment 删除评论
-func (co *CommentApi)DeleteComment(c *gin.Context) {
+func (co *CommentApi) DeleteComment(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	code := model.DeleteComment(uint(id))
-	c.JSON(http.StatusOK, gin.H{
-		"status":  code,
-		"message": errmsg.GetErrorMsg(code),
-	})
+	response.Result(code, "", c)
 }
 
 // GetCommentCount 获取评论数量
-func (co *CommentApi)GetCommentCount(c *gin.Context) {
+func (co *CommentApi) GetCommentCount(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	total := model.GetCommentCount(id)
 	c.JSON(http.StatusOK, gin.H{
@@ -56,7 +45,7 @@ func (co *CommentApi)GetCommentCount(c *gin.Context) {
 }
 
 // GetCommentList 后台查询评论列表
-func (co *CommentApi)GetCommentList(c *gin.Context) {
+func (co *CommentApi) GetCommentList(c *gin.Context) {
 	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
 	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
 
@@ -83,7 +72,7 @@ func (co *CommentApi)GetCommentList(c *gin.Context) {
 }
 
 // GetCommentListFront 展示页面显示评论列表
-func (co *CommentApi)GetCommentListFront(c *gin.Context) {
+func (co *CommentApi) GetCommentListFront(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
 	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
@@ -99,7 +88,7 @@ func (co *CommentApi)GetCommentListFront(c *gin.Context) {
 		pageNum = 1
 	}
 
-	data, total, code := model.GetCommentListFront(id,pageSize, pageNum)
+	data, total, code := model.GetCommentListFront(id, pageSize, pageNum)
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -111,7 +100,7 @@ func (co *CommentApi)GetCommentListFront(c *gin.Context) {
 }
 
 // CheckComment 通过审核
-func (co *CommentApi)CheckComment(c *gin.Context) {
+func (co *CommentApi) CheckComment(c *gin.Context) {
 	var data model.Comment
 	_ = c.ShouldBindJSON(&data)
 	id, _ := strconv.Atoi(c.Param("id"))
@@ -124,7 +113,7 @@ func (co *CommentApi)CheckComment(c *gin.Context) {
 }
 
 // UncheckComment 撤下评论审核
-func (co *CommentApi)UncheckComment(c *gin.Context) {
+func (co *CommentApi) UncheckComment(c *gin.Context) {
 	var data model.Comment
 	_ = c.ShouldBindJSON(&data)
 	id, _ := strconv.Atoi(c.Param("id"))

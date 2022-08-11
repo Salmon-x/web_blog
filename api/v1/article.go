@@ -12,21 +12,10 @@ import (
 type ArticleApi struct {
 }
 
-// @BasePath /api
-
-// PingExample godoc
-// @Summary 新增文章
-// @Tags 文章模块
-// @Schemes
-// @Description do ping
-// @Accept json
-// @Produce json
-// @Success 200 {object} response.Response
-// @Router /admin/article/ [post]
 func (a *ArticleApi) AddArticle(c *gin.Context) {
 	var data model.Article
 	_ = c.ShouldBindJSON(&data)
-	model.CreateArticle(&data)
+	code := data.CreateArticle()
 	if code == errmsg.ERROR_USERNAME_USED {
 		code = errmsg.ERROR_USERNAME_USED
 	}
@@ -82,16 +71,14 @@ func (a *ArticleApi) EditArticle(c *gin.Context) {
 	var data model.Article
 	id, _ := strconv.Atoi(c.Param("id"))
 	_ = c.ShouldBindJSON(&data)
-
-	code = model.UpdateArticle(id, &data)
-
+	code := data.UpdateArticle(id)
 	response.Result(code, "", c)
 }
 
 // 文章删除
 func (a *ArticleApi) DeleteArticle(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	code = model.DeleteArticle(id)
+	code := model.DeleteArticle(id)
 
 	response.Result(code, "", c)
 }

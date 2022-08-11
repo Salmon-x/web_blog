@@ -1,7 +1,7 @@
 package captcha
 
 import (
-	"blog/db"
+	"blog/global"
 	"context"
 	"fmt"
 	"github.com/mojocn/base64Captcha"
@@ -29,7 +29,7 @@ func (rs *RedisStore) UseWithCtx(ctx context.Context) base64Captcha.Store {
 // 实现store接口
 
 func (rs *RedisStore) Set(id string, value string) error {
-	err := db.RedisClient.Set(rs.Context, rs.PreKey+id, value, rs.Expiration).Err()
+	err := global.RedisClient.Set(rs.Context, rs.PreKey+id, value, rs.Expiration).Err()
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -37,12 +37,12 @@ func (rs *RedisStore) Set(id string, value string) error {
 }
 
 func (rs *RedisStore) Get(key string, clear bool) string {
-	val, err := db.RedisClient.Get(rs.Context, key).Result()
+	val, err := global.RedisClient.Get(rs.Context, key).Result()
 	if err != nil {
 		return ""
 	}
 	if clear {
-		err := db.RedisClient.Del(rs.Context, key).Err()
+		err := global.RedisClient.Del(rs.Context, key).Err()
 		if err != nil {
 			return ""
 		}
