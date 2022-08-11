@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"gopkg.in/ini.v1"
+	"strings"
 )
 
 var (
@@ -12,6 +13,7 @@ var (
 	SeaweedAddress string
 	UseMultipoint  bool
 	TransferTable  bool
+	LogPath        string
 
 	Db         string
 	DbHost     string
@@ -43,6 +45,10 @@ func LoadServer(file *ini.File) {
 	SeaweedAddress = file.Section("server").Key("SeaweedAddress").MustString("127.0.0.1:9333")
 	UseMultipoint = file.Section("server").Key("UseMultipoint").MustBool(false)
 	TransferTable = file.Section("server").Key("TransferTable").MustBool(false)
+	LogPath = file.Section("server").Key("LogPath").MustString("log/")
+	if !strings.HasSuffix(LogPath, "/") {
+		LogPath += "/"
+	}
 }
 
 func LoadData(file *ini.File) {

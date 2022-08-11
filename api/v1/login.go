@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"blog/db"
+	"blog/global"
 	"blog/middleware"
 	"blog/model"
 	"blog/model/response"
@@ -33,7 +33,7 @@ func (l *LoginApi) Login(c *gin.Context) {
 			// 成功则签发token
 			token, code = middleware.SetToken(user.Username)
 			if utils.UseMultipoint {
-				if err := db.RedisClient.Set(context.Background(), "admin", token, 10*time.Hour).Err(); err != nil {
+				if err := global.RedisClient.Set(context.Background(), "admin", token, 10*time.Hour).Err(); err != nil {
 					log.Println("设置状态错误: ", err)
 					utils.Logger(err)
 				}
@@ -46,9 +46,12 @@ func (l *LoginApi) Login(c *gin.Context) {
 }
 
 func (l *LoginApi) LoginFront(c *gin.Context) {
-	var formData model.User
+	var (
+		formData model.User
+		code     int
+	)
 	_ = c.ShouldBindJSON(&formData)
-	formData, code := model.CheckLoginFront(formData.Username, formData.Password)
+	formData, code = model.CheckLoginFront(formData.Username, formData.Password)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    formData.Username,

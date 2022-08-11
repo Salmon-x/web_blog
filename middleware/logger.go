@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"blog/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	retalog "github.com/lestrrat-go/file-rotatelogs"
@@ -12,15 +13,15 @@ import (
 )
 
 func Logger() gin.HandlerFunc {
-	// 定义文件路径
-	filePath := "log/blog.log"
+
+	filePath := utils.LogPath + "blog.log"
 	// 软连接路径(可以根据运维来进行调整)
 	// linkName := "latest_log.log"
 	// 初始化
 	logger := logrus.New()
 	// 定位到log文件夹(路径，os新建文件，赋值权限)
-	src,err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0755)
-	if err!=nil {
+	src, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0755)
+	if err != nil {
 		fmt.Println(err)
 	}
 	// 输出到日志文件中
@@ -28,7 +29,7 @@ func Logger() gin.HandlerFunc {
 
 	logger.SetLevel(logrus.DebugLevel)
 	logWriter, _ := retalog.New(
-		filePath+"%Y%m%d.log",
+		"%Y%m%d.log",
 		retalog.WithMaxAge(7*24*time.Hour),
 		retalog.WithRotationTime(24*time.Hour),
 		// retalog.WithLinkName(linkName),
@@ -46,8 +47,6 @@ func Logger() gin.HandlerFunc {
 		TimestampFormat: "2006-01-02 15:04:05",
 	})
 	logger.AddHook(Hook)
-
-
 
 	return func(c *gin.Context) {
 		// 输出开始时间
@@ -69,7 +68,7 @@ func Logger() gin.HandlerFunc {
 		userAgent := c.Request.UserAgent()
 		// 请求大小
 		dataSize := c.Writer.Size()
-		if dataSize < 0{
+		if dataSize < 0 {
 			dataSize = 0
 		}
 		// 请求方法和路径
@@ -77,27 +76,26 @@ func Logger() gin.HandlerFunc {
 		path := c.Request.RequestURI
 		// 组合数据
 		entry := logger.WithFields(logrus.Fields{
-			"HostName":hostName,
-			"Status":statusCode,
-			"SpendTime":spendTime,
-			"IP":clientIP,
-			"Method":method,
-			"Path":path,
-			"DataSize":dataSize,
-			"Agent": userAgent,
+			"HostName":  hostName,
+			"Status":    statusCode,
+			"SpendTime": spendTime,
+			"IP":        clientIP,
+			"Method":    method,
+			"Path":      path,
+			"DataSize":  dataSize,
+			"Agent":     userAgent,
 		})
 		// 分级别
-		if len(c.Errors) > 0{
+		if len(c.Errors) > 0 {
 			entry.Error(c.Errors.ByType(gin.ErrorTypePrivate).String())
 		}
-		if statusCode >= 500{
+		if statusCode >= 500 {
 			entry.Error()
-		}else if statusCode >= 400{
+		} else if statusCode >= 400 {
 			entry.Warn()
-		}else {
+		} else {
 			entry.Info()
 		}
 	}
 
-	
 }

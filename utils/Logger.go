@@ -9,12 +9,12 @@ import (
 	"time"
 )
 
-func Logger(error error)  {
+func Logger(error error) {
 	// 定义文件路径
-	filePath := "log/error.log"
+	filePath := LogPath + "error.log"
 	logger := logrus.New()
 	// 定位到log文件夹(路径，os新建文件，赋值权限)
-	src, err := os.OpenFile(filePath,os.O_RDWR|os.O_CREATE,0775)
+	src, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0775)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -38,7 +38,7 @@ func Logger(error error)  {
 	})
 	logger.AddHook(Hook)
 	entry := logger.WithFields(logrus.Fields{
-		"error":error,
+		"error": error,
 	})
 	entry.Error()
 }
