@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"blog/db"
 	"blog/global"
 	"blog/model"
 	"blog/model/response"
@@ -84,7 +83,7 @@ func JwtToken() gin.HandlerFunc {
 
 		// 单点登录是否启动
 		if utils.UseMultipoint {
-			RedisToken, err := db.RedisClient.Get(context.Background(), "admin").Result()
+			RedisToken, err := global.RedisClient.Get(context.Background(), "admin").Result()
 			if err != nil {
 				log.Println("获取RedisToken失败", err)
 			}

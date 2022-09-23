@@ -41,7 +41,8 @@ func (u *UserApi) AddUser(c *gin.Context) {
 // 查询用户
 func (u *UserApi) GetUserInfo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	data, code := model.GetUser(id)
+	data := model.User{}
+	code := data.GetUser(id)
 	response.Result(code, data, c)
 }
 
@@ -51,7 +52,8 @@ func (u *UserApi) GetUsers(c *gin.Context) {
 	Size, _ := strconv.Atoi(c.DefaultQuery("size", "3"))
 	Page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	username := c.Query("username")
-	data, total := model.GetUsers(username, Size, Page)
+	data := make(model.Users, 0)
+	total := data.GetUsers(username, Size, Page)
 	response.ResultAll(errmsg.SUCCSE, data, total, c)
 }
 

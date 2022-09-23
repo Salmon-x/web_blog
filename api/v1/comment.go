@@ -16,15 +16,15 @@ type CommentApi struct {
 func (co *CommentApi) AddComment(c *gin.Context) {
 	var data model.Comment
 	_ = c.ShouldBindJSON(&data)
-
-	code := model.AddComment(&data)
+	code := data.AddComment()
 	response.Result(code, data, c)
 }
 
 // GetComment 获取单个评论信息
 func (co *CommentApi) GetComment(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	data, code := model.GetComment(id)
+	data := model.Comment{}
+	code := data.GetComment(id)
 	response.Result(code, data, c)
 }
 
@@ -59,8 +59,8 @@ func (co *CommentApi) GetCommentList(c *gin.Context) {
 	if pageNum == 0 {
 		pageNum = 1
 	}
-
-	data, total, code := model.GetCommentList(pageSize, pageNum)
+	data := model.Comments{}
+	total, code := data.GetCommentList(pageSize, pageNum)
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -87,8 +87,8 @@ func (co *CommentApi) GetCommentListFront(c *gin.Context) {
 	if pageNum == 0 {
 		pageNum = 1
 	}
-
-	data, total, code := model.GetCommentListFront(id, pageSize, pageNum)
+	data := model.Comments{}
+	total, code := data.GetCommentListFront(id, pageSize, pageNum)
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -105,7 +105,7 @@ func (co *CommentApi) CheckComment(c *gin.Context) {
 	_ = c.ShouldBindJSON(&data)
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	code := model.CheckComment(id, &data)
+	code := data.CheckComment(id)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"message": errmsg.GetErrorMsg(code),
@@ -118,7 +118,7 @@ func (co *CommentApi) UncheckComment(c *gin.Context) {
 	_ = c.ShouldBindJSON(&data)
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	code := model.UncheckComment(id, &data)
+	code := data.UncheckComment(id)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"message": errmsg.GetErrorMsg(code),

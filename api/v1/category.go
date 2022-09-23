@@ -29,8 +29,8 @@ func (a *CategoryApi) AddCategory(c *gin.Context) {
 // 查询单个分类信息
 func (a *CategoryApi) GetCateInfo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-
-	data, code := model.GetCateInfo(id)
+	data := model.Category{}
+	code := data.GetCateInfo(id)
 
 	response.Result(code, data, c)
 }
@@ -40,7 +40,8 @@ func (a *CategoryApi) GetCategorys(c *gin.Context) {
 	// 字符串转int
 	PageSize, _ := strconv.Atoi(c.DefaultQuery("size", "3"))
 	PageNum, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
-	data, total := model.GetCategorys(PageSize, PageNum)
+	data := model.Categorys{}
+	total := data.GetCategorys(PageSize, PageNum)
 	response.ResultAll(errmsg.SUCCSE, data, total, c)
 }
 

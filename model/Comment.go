@@ -16,8 +16,10 @@ type Comment struct {
 	Status    int8   `gorm:"type:tinyint;default:2" json:"status"`
 }
 
+type Comments []Comment
+
 // AddComment 新增评论
-func AddComment(data *Comment) int {
+func (data *Comment) AddComment() int {
 	err := global.Db.Create(&data).Error
 	if err != nil {
 		return errmsg.ERROR
@@ -26,26 +28,23 @@ func AddComment(data *Comment) int {
 }
 
 // GetComment 查询单个评论
-func GetComment(id int) (Comment, int) {
-	var comment Comment
+func (comment *Comment) GetComment(id int) int {
 	err := global.Db.Where("id = ?", id).First(&comment).Error
 	if err != nil {
-		return comment, errmsg.ERROR
+		return errmsg.ERROR
 	}
-	return comment, errmsg.SUCCSE
+	return errmsg.SUCCSE
 }
 
 // GetCommentList 后台所有获取评论列表
-func GetCommentList(pageSize int, pageNum int) ([]Comment, int64, int) {
-
-	var commentList []Comment
+func (comments *Comments) GetCommentList(pageSize int, pageNum int) (int64, int) {
 	var total int64
-	global.Db.Find(&commentList).Count(&total)
-	err := global.Db.Model(&commentList).Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Select("comment.id, article.title,user_id,article_id, user.username, comment.content, comment.status,comment.created_at,comment.deleted_at").Joins("LEFT JOIN article ON comment.article_id = article.id").Joins("LEFT JOIN user ON comment.user_id = user.id").Scan(&commentList).Error
+	global.Db.Find(&comments).Count(&total)
+	err := global.Db.Model(&comments).Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Select("comment.id, article.title,user_id,article_id, user.username, comment.content, comment.status,comment.created_at,comment.deleted_at").Joins("LEFT JOIN article ON comment.article_id = article.id").Joins("LEFT JOIN user ON comment.user_id = user.id").Scan(&comments).Error
 	if err != nil {
-		return commentList, 0, errmsg.ERROR
+		return 0, errmsg.ERROR
 	}
-	return commentList, total, errmsg.SUCCSE
+	return total, errmsg.SUCCSE
 }
 
 // GetCommentCount 获取评论数量
@@ -57,16 +56,15 @@ func GetCommentCount(id int) int64 {
 }
 
 // GetCommentListFront 展示页面获取评论列表
-func GetCommentListFront(id int, pageSize int, pageNum int) ([]Comment, int64, int) {
-	var commentList []Comment
+func (comments *Comments) GetCommentListFront(id int, pageSize int, pageNum int) (int64, int) {
 	var total int64
 	global.Db.Find(&Comment{}).Where("article_id = ?", id).Where("status = ?", 1).Count(&total)
 	err := global.Db.Model(&Comment{}).Limit(pageSize).Offset((pageNum-1)*pageSize).Order("Created_At DESC").Select("comment.id, article.title, user_id, article_id, user.username, comment.content, comment.status,comment.created_at,comment.deleted_at").Joins("LEFT JOIN article ON comment.article_id = article.id").Joins("LEFT JOIN user ON comment.user_id = user.id").Where("article_id = ?",
-		id).Where("status = ?", 1).Scan(&commentList).Error
+		id).Where("status = ?", 1).Scan(&comments).Error
 	if err != nil {
-		return commentList, 0, errmsg.ERROR
+		return 0, errmsg.ERROR
 	}
-	return commentList, total, errmsg.SUCCSE
+	return total, errmsg.SUCCSE
 }
 
 // 编辑评论（暂不允许编辑评论）
@@ -82,7 +80,7 @@ func DeleteComment(id uint) int {
 }
 
 // CheckComment 通过评论
-func CheckComment(id int, data *Comment) int {
+func (data *Comment) CheckComment(id int) int {
 	var comment Comment
 	var res Comment
 	var article Article
@@ -98,7 +96,7 @@ func CheckComment(id int, data *Comment) int {
 }
 
 // UncheckComment 撤下评论
-func UncheckComment(id int, data *Comment) int {
+func (data *Comment) UncheckComment(id int) int {
 	var comment Comment
 	var res Comment
 	var article Article

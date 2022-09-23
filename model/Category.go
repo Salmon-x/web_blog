@@ -11,6 +11,8 @@ type Category struct {
 	Name string `gorm:"type:varchar(20);not null" json:"name"`
 }
 
+type Categorys []Category
+
 // 存在性判断
 func CheckCategory(name string) (code int) {
 	var cate Category
@@ -35,24 +37,22 @@ func (model *Category) CreateCategory() int {
 }
 
 // GetCateInfo 查询单个分类信息
-func GetCateInfo(id int) (Category, int) {
-	var cate Category
+func (cate *Category) GetCateInfo(id int) int {
 	global.Db.Where("id = ?", id).First(&cate)
-	return cate, errmsg.SUCCSE
+	return errmsg.SUCCSE
 }
 
 // 分类列表
-func GetCategorys(Size int, Page int) ([]Category, int64) {
-	var cates []Category
+func (cates *Categorys) GetCategorys(Size int, Page int) int64 {
 	var total int64
 	// 分页
 	err := global.Db.Limit(Size).Offset((Page - 1) * Size).Find(&cates).Error
 	global.Db.Model(&cates).Count(&total)
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil, 0
+		return 0
 	}
 	// 返回分类列表
-	return cates, total
+	return total
 }
 
 // 编辑分类

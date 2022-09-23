@@ -11,6 +11,8 @@ type WellKnownSaying struct {
 	Title string `gorm:"type:varchar(200);not null" json:"title"`
 }
 
+type WellKnownSayings []WellKnownSaying
+
 // 存在性判断
 func Checkwks(title string) (code int) {
 	var wks WellKnownSaying
@@ -35,21 +37,19 @@ func (model *WellKnownSaying) Createwks() int {
 }
 
 // 分类列表
-func GetWks() []WellKnownSaying {
-	var wks []WellKnownSaying
+func (wks *WellKnownSayings) GetWks() {
 	// 分页
 	err := global.Db.Find(&wks).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil
+		return
 	}
 	// 返回分类列表
-	return wks
+	return
 }
 
-func GetWksInfo(id int) (WellKnownSaying, int) {
-	var cate WellKnownSaying
+func (cate *WellKnownSaying) GetWksInfo(id int) int {
 	global.Db.Where("id = ?", id).First(&cate)
-	return cate, errmsg.SUCCSE
+	return errmsg.SUCCSE
 }
 
 // 编辑分类

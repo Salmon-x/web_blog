@@ -25,7 +25,8 @@ func (w *WksApi) AddWks(c *gin.Context) {
 
 // 查询分类列表
 func (w *WksApi) GetWks(c *gin.Context) {
-	data := model.GetWks()
+	data := make(model.WellKnownSayings, 0)
+	data.GetWks()
 	code := errmsg.SUCCSE
 	response.Result(code, data, c)
 }
@@ -33,8 +34,8 @@ func (w *WksApi) GetWks(c *gin.Context) {
 // 查询单个分类信息
 func (w *WksApi) GetWksInfo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-
-	data, code := model.GetWksInfo(id)
+	data := model.WellKnownSaying{}
+	code := data.GetWksInfo(id)
 	response.Result(code, data, c)
 }
 

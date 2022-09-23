@@ -18,6 +18,8 @@ type User struct {
 	Role     int    `gorm:"type:int;DEFAULT:2" json:"role" validate:"required" label:"角色"`
 }
 
+type Users []User
+
 // 存在性判断
 func CheckUser(name string) (code int) {
 	var users User
@@ -55,18 +57,16 @@ func (model *User) CreateUser() int {
 }
 
 // 单个用户
-func GetUser(id int) (User, int) {
-	var user User
+func (user *User) GetUser(id int) int {
 	err := global.Db.Select("username,avatar,role").Where("ID=?", id).First(&user).Error
 	if err != nil {
-		return user, errmsg.ERROR
+		return errmsg.ERROR
 	}
-	return user, errmsg.SUCCSE
+	return errmsg.SUCCSE
 }
 
 // 用户列表
-func GetUsers(username string, Size int, Page int) ([]User, int64) {
-	var users []User
+func (users *Users) GetUsers(username string, Size int, Page int) int64 {
 	var total int64
 	if username != "" {
 		if username != "" {
@@ -76,17 +76,17 @@ func GetUsers(username string, Size int, Page int) ([]User, int64) {
 			global.Db.Model(&users).Where(
 				"username LIKE ?", username+"%",
 			).Count(&total)
-			return users, total
+			return total
 		}
 	}
 	// 分页
 	err := global.Db.Select("id,username,role").Offset((Page - 1) * Size).Limit(Size).Find(&users).Error
 	global.Db.Model(&users).Count(&total)
 	if err != nil {
-		return users, 0
+		return 0
 	}
 	// 返回用户的列表
-	return users, total
+	return total
 }
 
 // 编辑用户
@@ -130,21 +130,20 @@ func (u *User) BeforeCreate(_ *gorm.DB) (err error) {
 }
 
 // 登陆验证
-func CheckLogin(data schemas.Login) (User, int) {
-	var user User
+func (user *User) CheckLogin(data schemas.Login) int {
 	var PasswordErr error
 	global.Db.Where("username=?", data.Username).First(&user)
 	if user.ID == 0 {
-		return user, errmsg.ERROR_USER_NOT_EXIST
+		return errmsg.ERROR_USER_NOT_EXIST
 	}
 	PasswordErr = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(data.Password))
 	if PasswordErr != nil {
-		return user, errmsg.ERROR_PASSWORD_WRONG
+		return errmsg.ERROR_PASSWORD_WRONG
 	}
 	if user.Role != 1 {
-		return user, errmsg.ERROR_USER_NO_RIGHT
+		return errmsg.ERROR_USER_NO_RIGHT
 	}
-	return user, errmsg.SUCCSE
+	return errmsg.SUCCSE
 }
 
 // 管理员重置密码
@@ -190,18 +189,17 @@ func NosOne() {
 }
 
 // CheckLoginFront 前台登录
-func CheckLoginFront(username string, password string) (User, int) {
-	var user User
+func (user *User) CheckLoginFront(username string, password string) int {
 	var PasswordErr error
 
 	global.Db.Where("username = ?", username).First(&user)
 
 	PasswordErr = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if user.ID == 0 {
-		return user, errmsg.ERROR_USER_NOT_EXIST
+		return errmsg.ERROR_USER_NOT_EXIST
 	}
 	if PasswordErr != nil {
-		return user, errmsg.ERROR_PASSWORD_WRONG
+		return errmsg.ERROR_PASSWORD_WRONG
 	}
-	return user, errmsg.SUCCSE
+	return errmsg.SUCCSE
 }

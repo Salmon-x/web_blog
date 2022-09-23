@@ -30,18 +30,21 @@ func (a *ArticleApi) GetArticles(c *gin.Context) {
 	Page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	title := c.Query("title")
 	if len(title) == 0 {
-		data, code, total := model.GetArticles(Size, Page)
+		data := make(model.Articles, 0)
+		code, total := data.GetArticles(Size, Page)
 		response.ResultAll(code, data, total, c)
 		return
 	}
-	data, code, total := model.SearchArticle(title, Size, Page)
+	data := make(model.Articles, 0)
+	code, total := data.SearchArticle(title, Size, Page)
 	response.ResultAll(code, data, total, c)
 }
 
 // 单个文章
 func (a *ArticleApi) GetArticleInfo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	data, code := model.ArticleInfo(id)
+	data := model.Article{}
+	code := data.ArticleInfo(id)
 	// 渲染成html
 	//data.Content = utils.Render(data.Content)
 
@@ -50,7 +53,8 @@ func (a *ArticleApi) GetArticleInfo(c *gin.Context) {
 
 func (a *ArticleApi) FrontArticleInfo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	data, code := model.ArticleInfo(id)
+	data := model.Article{}
+	code := data.ArticleInfo(id)
 	// 渲染成html
 	data.Content = utils.Render(data.Content)
 
@@ -62,7 +66,8 @@ func (a *ArticleApi) GetCateArt(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	Size, _ := strconv.Atoi(c.DefaultQuery("size", "3"))
 	Page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
-	data, code, total := model.GetCateArt(id, Size, Page)
+	data := make(model.Articles, 0)
+	code, total := data.GetCateArt(id, Size, Page)
 	response.ResultAll(code, data, total, c)
 }
 

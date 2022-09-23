@@ -29,7 +29,7 @@ func Logger() gin.HandlerFunc {
 
 	logger.SetLevel(logrus.DebugLevel)
 	logWriter, _ := retalog.New(
-		"%Y%m%d.log",
+		utils.LogPath+"%Y%m%d.log",
 		retalog.WithMaxAge(7*24*time.Hour),
 		retalog.WithRotationTime(24*time.Hour),
 		// retalog.WithLinkName(linkName),

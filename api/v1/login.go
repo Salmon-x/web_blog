@@ -28,7 +28,7 @@ func (l *LoginApi) Login(c *gin.Context) {
 	_ = c.ShouldBindJSON(&formData)
 	if store.Verify(formData.CaptchaId, formData.Captcha, true) {
 		// 验证用户名密码
-		user, code = model.CheckLogin(formData)
+		code = user.CheckLogin(formData)
 		if code == errmsg.SUCCSE {
 			// 成功则签发token
 			token, code = middleware.SetToken(user.Username)
@@ -51,7 +51,7 @@ func (l *LoginApi) LoginFront(c *gin.Context) {
 		code     int
 	)
 	_ = c.ShouldBindJSON(&formData)
-	formData, code = model.CheckLoginFront(formData.Username, formData.Password)
+	code = formData.CheckLoginFront(formData.Username, formData.Password)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    formData.Username,
